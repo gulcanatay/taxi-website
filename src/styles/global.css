@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+section[id] {
+  scroll-margin-top: 6rem;
+}
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+  --color-taxi-50: #fff9e6;
+  --color-taxi-100: #fff3cc;
+  --color-taxi-400: #ffcd38;
+  --color-taxi-500: #e6b82e;
+  --color-taxi-600: #cc9f1a;
+  --color-taxi-700: #b38a10;
+  --color-dark: #231f20;
+}

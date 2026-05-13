@@ -1,0 +1,25 @@
+---
+import { Phone, Mail, MapPin, Clock } from "@lucide/astro";
+import { siteConfig } from "../../config/site";
+import ReservationForm from "../ui/ReservationForm.astro";
+---
+
+<section id="reservierung" class="py-20 bg-gray-50">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <p class="text-taxi-500 font-semibold text-sm uppercase tracking-wider mb-2">
+        Reservierung
+      </p>
+      <h2 class="text-3xl sm:text-4xl font-bold text-dark">
+        Fahrt reservieren
+      </h2>
+      <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
+        Buchen Sie Ihre Fahrt bequem online — wir melden uns umgehend bei Ihnen.
+      </p>
+    </div>
+
+    <div class="max-w-lg mx-auto">
+      <ReservationForm />
+    </div>
+  </div>
+</section>

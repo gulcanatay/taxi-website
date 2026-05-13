@@ -1,0 +1,65 @@
+---
+import { Shield, Clock, ThumbsUp, UserCheck } from "@lucide/astro";
+
+const values = [
+  {
+    icon: Shield,
+    title: "Sicherheit",
+    description: "Erfahrene Fahrerin und regelmässig gewartete Fahrzeuge für Ihre Sicherheit.",
+  },
+  {
+    icon: Clock,
+    title: "Pünktlichkeit",
+    description: "Wir sind immer rechtzeitig da — damit Sie nie zu spät kommen.",
+  },
+  {
+    icon: ThumbsUp,
+    title: "Zuverlässigkeit",
+    description: "Auf uns können Sie sich verlassen. 24 Stunden am Tag, 7 Tage die Woche.",
+  },
+  {
+    icon: UserCheck,
+    title: "Ihre Fahrerin",
+    description: "Als Frau am Steuer biete ich Ihnen ein besonderes Sicherheitsgefühl — persönlich, vertrauensvoll und professionell.",
+  },
+];
+---
+
+<section id="ueber-uns" class="py-20 bg-white">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <!-- Text -->
+      <div>
+        <p class="text-taxi-500 font-semibold text-sm uppercase tracking-wider mb-2">
+          Uber uns
+        </p>
+        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
+          Ihr Partner für Mobilität
+        </h2>
+        <p class="text-gray-600 leading-relaxed mb-6">
+          Seit Jahren bin ich Ihre verlässliche Fahrerin in der Region. Als erfahrene und
+          freundliche Taxifahrerin bringe ich Sie sicher und komfortabel an jedes Ziel.
+        </p>
+        <p class="text-gray-600 leading-relaxed">
+          Ich lege grössten Wert auf Kundenzufriedenheit, Pünktlichkeit und einen
+          professionellen Service. Ob Privatfahrt oder Geschäftsreise — bei mir sind Sie in guten Händen.
+        </p>
+      </div>
+
+      <!-- Values -->
+      <div class="space-y-6">
+        {values.map((value) => (
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 inline-flex items-center justify-center rounded-xl bg-taxi-50 p-3 text-taxi-500">
+              <value.icon class="h-6 w-6" />
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 mb-1">{value.title}</h3>
+              <p class="text-sm text-gray-600">{value.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

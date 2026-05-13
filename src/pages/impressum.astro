@@ -1,0 +1,97 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
+import { siteConfig } from "../config/site";
+---
+
+<Layout title={`Impressum | ${siteConfig.name}`} description="Impressum und rechtliche Angaben.">
+  <Header />
+  <main class="pt-24 pb-20">
+    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl sm:text-4xl font-bold text-dark mb-8">Impressum</h1>
+
+      <div class="space-y-8 text-gray-600 leading-relaxed">
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">Angaben gemäß § 5 DDG</h2>
+          <p>
+            {siteConfig.business.owner}<br />
+            {siteConfig.name}<br />
+            {siteConfig.address.street}<br />
+            {siteConfig.address.zip} {siteConfig.address.city}
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">Kontakt</h2>
+          <p>
+            Telefon: <a href={`tel:${siteConfig.phone}`} class="text-taxi-600 hover:text-taxi-700">{siteConfig.phoneDisplay}</a><br />
+            E-Mail: <a href={`mailto:${siteConfig.email}`} class="text-taxi-600 hover:text-taxi-700">{siteConfig.email}</a>
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">Umsatzsteuer-ID</h2>
+          <p>
+            Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz:<br />
+            {siteConfig.business.taxId}
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">Gewerbeanmeldung</h2>
+          <p>
+            Die Gewerbeanmeldung wurde durch das {siteConfig.business.registrationAuthority} erteilt.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+          <p>
+            {siteConfig.business.owner}<br />
+            {siteConfig.address.street}<br />
+            {siteConfig.address.zip} {siteConfig.address.city}
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">Streitschlichtung</h2>
+          <p>
+            Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
+            <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" class="text-taxi-600 hover:text-taxi-700">
+              https://ec.europa.eu/consumers/odr/
+            </a>
+          </p>
+          <p class="mt-2">
+            Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">Haftung für Inhalte</h2>
+          <p>
+            Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+          </p>
+          <p class="mt-2">
+            Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">Haftung für Links</h2>
+          <p>
+            Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">Urheberrecht</h2>
+          <p>
+            Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>

@@ -1,0 +1,252 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
+import ReservationForm from "../components/ui/ReservationForm.astro";
+import { siteConfig } from "../config/site";
+import { Phone, MessageCircle, Plane, BadgeEuro, Clock, UserCheck, ShieldCheck, CalendarCheck, Car } from "@lucide/astro";
+
+const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeURIComponent("Hallo, ich möchte einen Flughafentransfer buchen.")}`;
+
+const benefits = [
+  {
+    icon: Plane,
+    title: "Flugüberwachung",
+    description: "Wir beobachten Ihren Flug in Echtzeit und passen die Abholzeit bei Verspätungen automatisch an.",
+  },
+  {
+    icon: BadgeEuro,
+    title: "Festpreise",
+    description: "Keine versteckten Kosten — Sie kennen den Preis bereits vor der Fahrt.",
+  },
+  {
+    icon: Clock,
+    title: "Pünktlichkeit",
+    description: "Wir sind rechtzeitig vor Ort, damit Sie stressfrei zum Flughafen kommen.",
+  },
+  {
+    icon: UserCheck,
+    title: "Ihre Fahrerin",
+    description: "Als Frau am Steuer bringe ich Sie persönlich und sicher zum Flughafen.",
+  },
+];
+
+const steps = [
+  {
+    icon: CalendarCheck,
+    step: "1",
+    title: "Buchen",
+    description: "Reservieren Sie per Telefon, WhatsApp oder über unser Formular.",
+  },
+  {
+    icon: Car,
+    step: "2",
+    title: "Abholung",
+    description: "Ihre Fahrerin erwartet Sie am vereinbarten Ort mit Namensschild.",
+  },
+  {
+    icon: ShieldCheck,
+    step: "3",
+    title: "Ankommen",
+    description: "Entspannt und sicher an Ihrem Ziel ankommen.",
+  },
+];
+
+const faqs = [
+  {
+    question: "Was kostet ein Transfer zum Flughafen?",
+    answer: "Wir bieten Festpreise für Flughafentransfers an. Der genaue Preis hängt von Ihrem Abholort ab. Kontaktieren Sie uns für ein unverbindliches Angebot — per Telefon oder WhatsApp.",
+  },
+  {
+    question: "Wie früh sollte ich buchen?",
+    answer: "Wir empfehlen, mindestens 24 Stunden im Voraus zu buchen. Bei kurzfristigen Anfragen tun wir unser Bestes, um Ihre Fahrt zu organisieren.",
+  },
+  {
+    question: "Was passiert bei Flugverspätung?",
+    answer: "Kein Problem — wir überwachen Ihren Flug und passen die Abholzeit automatisch an. Es entstehen keine zusätzlichen Kosten bei Verspätungen.",
+  },
+  {
+    question: "Wer fährt mich zum Flughafen?",
+    answer: "Ihre Fahrerin — ich bringe Sie persönlich und sicher zum Flughafen. Als Frau am Steuer biete ich Ihnen ein vertrauensvolles Fahrerlebnis.",
+  },
+  {
+    question: "Welche Zahlungsmethoden werden akzeptiert?",
+    answer: "Wir akzeptieren Barzahlung und EC-Karte. Bitte teilen Sie uns bei der Buchung Ihre bevorzugte Zahlungsmethode mit.",
+  },
+];
+---
+
+<Layout
+  title={`Flughafentransfer ${siteConfig.address.city} | ${siteConfig.name}`}
+  description={`Zuverlässiger Flughafentransfer in ${siteConfig.address.city}. Festpreise, 24/7 verfügbar, Flugüberwachung. Jetzt buchen!`}
+>
+  <Header />
+  <main>
+    <!-- Hero -->
+    <section class="relative bg-dark pt-24 pb-16">
+      <div class="absolute inset-0 bg-gradient-to-br from-dark via-gray-800 to-dark"></div>
+      <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl">
+          <p class="text-taxi-400 font-semibold text-sm uppercase tracking-wider mb-4">
+            Flughafentransfer
+          </p>
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+            Flughafentransfer {siteConfig.address.city} —
+            <span class="text-taxi-400">Pünktlich & Komfortabel</span>
+          </h1>
+          <p class="mt-6 text-lg text-gray-300 max-w-xl">
+            Ihre Fahrerin bringt Sie zuverlässig zum und vom Flughafen. Festpreise, keine
+            versteckten Kosten, 24/7 verfügbar.
+          </p>
+          <div class="mt-8 flex flex-col sm:flex-row gap-4">
+            <a
+              href={`tel:${siteConfig.phone}`}
+              class="inline-flex items-center justify-center gap-2 rounded-full bg-taxi-400 px-8 py-4 text-lg font-bold text-dark hover:bg-taxi-500 transition-colors"
+            >
+              <Phone class="h-5 w-5" />
+              Jetzt anrufen
+            </a>
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center gap-2 rounded-full bg-green-500 px-8 py-4 text-lg font-bold text-white hover:bg-green-600 transition-colors"
+            >
+              <MessageCircle class="h-5 w-5" />
+              WhatsApp
+            </a>
+          </div>
+          <div class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-gray-400">
+            <span class="flex items-center gap-2">
+              <BadgeEuro class="h-4 w-4 text-taxi-400" />
+              Festpreise
+            </span>
+            <span class="flex items-center gap-2">
+              <Clock class="h-4 w-4 text-taxi-400" />
+              24/7 verfügbar
+            </span>
+            <span class="flex items-center gap-2">
+              <UserCheck class="h-4 w-4 text-taxi-400" />
+              Ihre Fahrerin
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="py-20 bg-white">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <p class="text-taxi-500 font-semibold text-sm uppercase tracking-wider mb-2">
+            Vorteile
+          </p>
+          <h2 class="text-3xl sm:text-4xl font-bold text-dark">
+            Warum Sie uns wählen sollten
+          </h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {benefits.map((benefit) => (
+            <div class="rounded-2xl bg-gray-50 border border-gray-100 p-6 text-center">
+              <div class="inline-flex items-center justify-center rounded-xl bg-taxi-50 p-3 text-taxi-500 mb-4">
+                <benefit.icon class="h-6 w-6" />
+              </div>
+              <h3 class="text-lg font-semibold text-dark mb-2">{benefit.title}</h3>
+              <p class="text-sm text-gray-600">{benefit.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="py-20 bg-gray-50">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <p class="text-taxi-500 font-semibold text-sm uppercase tracking-wider mb-2">
+            So funktioniert's
+          </p>
+          <h2 class="text-3xl sm:text-4xl font-bold text-dark">
+            In 3 Schritten zum Transfer
+          </h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {steps.map((item) => (
+            <div class="text-center">
+              <div class="inline-flex items-center justify-center rounded-full bg-taxi-400 h-16 w-16 text-2xl font-bold text-dark mb-4">
+                {item.step}
+              </div>
+              <h3 class="text-lg font-semibold text-dark mb-2">{item.title}</h3>
+              <p class="text-sm text-gray-600">{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Reservation -->
+    <section class="py-20 bg-white">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <p class="text-taxi-500 font-semibold text-sm uppercase tracking-wider mb-2">
+            Reservierung
+          </p>
+          <h2 class="text-3xl sm:text-4xl font-bold text-dark">
+            Jetzt Transfer buchen
+          </h2>
+          <p class="mt-4 text-gray-600">
+            Füllen Sie das Formular aus — wir melden uns umgehend bei Ihnen.
+          </p>
+        </div>
+        <div class="max-w-lg mx-auto">
+          <ReservationForm defaultTo="Flughafen München" id="airport-reservation-form" />
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-20 bg-gray-50">
+      <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <p class="text-taxi-500 font-semibold text-sm uppercase tracking-wider mb-2">
+            FAQ
+          </p>
+          <h2 class="text-3xl sm:text-4xl font-bold text-dark">
+            Häufige Fragen
+          </h2>
+        </div>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <details class="group rounded-2xl bg-white border border-gray-100 overflow-hidden">
+              <summary class="flex cursor-pointer items-center justify-between px-6 py-4 font-semibold text-dark hover:bg-gray-50 transition-colors">
+                {faq.question}
+                <span class="ml-4 text-taxi-500 transition-transform group-open:rotate-45">+</span>
+              </summary>
+              <div class="px-6 pb-4 text-sm text-gray-600 leading-relaxed">
+                {faq.answer}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+
+  <!-- FAQ Structured Data -->
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    })}
+  />
+</Layout>

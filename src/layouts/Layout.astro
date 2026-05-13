@@ -1,0 +1,64 @@
+---
+import "../styles/global.css";
+import { siteConfig } from "../config/site";
+import WhatsAppFloat from "../components/ui/WhatsAppFloat.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = siteConfig.name, description = siteConfig.description } =
+  Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
+---
+
+<!doctype html>
+<html lang="de" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:url" content={canonicalUrl} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <title>{title}</title>
+
+    <!-- JSON-LD Structured Data -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "TaxiService",
+        name: siteConfig.name,
+        description: siteConfig.description,
+        telephone: siteConfig.phone,
+        email: siteConfig.email,
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: siteConfig.address.street,
+          postalCode: siteConfig.address.zip,
+          addressLocality: siteConfig.address.city,
+          addressCountry: "DE",
+        },
+      })}
+    />
+  </head>
+  <body class="bg-white text-dark antialiased">
+    <slot />
+    <WhatsAppFloat />
+  </body>
+</html>
