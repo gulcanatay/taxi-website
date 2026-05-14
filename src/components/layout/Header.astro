@@ -60,10 +60,10 @@ const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeUR
   </div>
 
   <!-- Mobile Nav (full-screen overlay) -->
-  <div id="mobile-menu" class="hidden md:hidden fixed inset-0 top-0 z-[-1] bg-dark pt-[calc(5rem+env(safe-area-inset-top))] overflow-y-auto">
+  <div id="mobile-menu" class="hidden md:hidden fixed inset-0 top-0 z-[-1] bg-dark pt-[calc(5rem+env(safe-area-inset-top))] overflow-y-auto opacity-0 transition-opacity duration-300" data-menu-overlay>
     <nav class="flex flex-col items-center px-4 py-6 gap-5 text-center border-t border-white/10">
       <!-- Language links -->
-      <div class="flex flex-col items-center gap-3">
+      <div class="menu-item flex flex-col items-center gap-3">
         <p class="text-xs text-gray-400 uppercase tracking-wider">{t.header.chooseLanguage}</p>
         {[
           { code: "de" as const, label: "Deutsch", flag: "🇩🇪" },
@@ -86,18 +86,18 @@ const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeUR
           </a>
         ))}
       </div>
-      <div class="w-full border-b border-white/10"></div>
+      <div class="menu-item w-full border-b border-white/10"></div>
       {t.nav.map((item) => (
         <a
           href={locale === "de" ? item.href : `/${locale}${item.href}`}
-          class="mobile-nav-link text-base font-bold text-white hover:text-taxi-400 transition-colors"
+          class="menu-item mobile-nav-link text-base font-bold text-white hover:text-taxi-400 transition-colors"
         >
           {item.label}
         </a>
       ))}
-      <div class="w-full border-b border-white/10"></div>
-      <div class="flex flex-col items-center">
-        <p class="text-xs text-gray-400 uppercase tracking-wider mb-2">{t.header.whatsapp}</p>
+      <div class="menu-item w-full border-b border-white/10"></div>
+      <div class="menu-item flex flex-col items-center">
+        <p class="text-xs text-gray-400 uppercase tracking-wider mb-2">{t.header.whatsappBooking}</p>
         <a
           href={whatsappUrl}
           target="_blank"
@@ -110,7 +110,7 @@ const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeUR
           WhatsApp
         </a>
       </div>
-      <div class="flex flex-col items-center">
+      <div class="menu-item flex flex-col items-center">
         <p class="text-xs text-gray-400 uppercase tracking-wider mb-2">{t.header.directCall}</p>
         <a
           href={`tel:${siteConfig.phone}`}
@@ -130,9 +130,10 @@ const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeUR
   const iconOpen = document.getElementById("menu-icon-open");
   const iconClose = document.getElementById("menu-icon-close");
   const header = document.getElementById("site-header");
+  const menuItems = menu?.querySelectorAll(".menu-item") ?? [];
 
   function isMenuOpen() {
-    return !menu?.classList.contains("hidden");
+    return menu?.dataset.open === "true";
   }
 
   function updateHeaderBg() {
@@ -143,29 +144,68 @@ const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeUR
     }
   }
 
-  function toggleMenu() {
-    const opening = !isMenuOpen();
-    menu?.classList.toggle("hidden");
-    iconOpen?.classList.toggle("hidden");
-    iconClose?.classList.toggle("hidden");
-    if (opening) {
-      document.body.classList.add("overflow-hidden");
-    } else {
-      document.body.classList.remove("overflow-hidden");
-    }
+  function resetItems() {
+    menuItems.forEach((item) => {
+      (item as HTMLElement).style.opacity = "0";
+      (item as HTMLElement).style.transform = "translateY(16px)";
+    });
+  }
+
+  function animateItemsIn() {
+    menuItems.forEach((item, i) => {
+      const el = item as HTMLElement;
+      el.style.transition = "none";
+      el.style.opacity = "0";
+      el.style.transform = "translateY(16px)";
+      requestAnimationFrame(() => {
+        el.style.transition = `opacity 0.35s ease ${i * 0.06}s, transform 0.35s ease ${i * 0.06}s`;
+        el.style.opacity = "1";
+        el.style.transform = "translateY(0)";
+      });
+    });
+  }
+
+  function openMenu() {
+    if (!menu) return;
+    resetItems();
+    menu.classList.remove("hidden");
+    menu.dataset.open = "true";
+    // Trigger overlay fade-in on next frame
+    requestAnimationFrame(() => {
+      menu.classList.remove("opacity-0");
+      menu.classList.add("opacity-100");
+      animateItemsIn();
+    });
+    iconOpen?.classList.add("hidden");
+    iconClose?.classList.remove("hidden");
+    document.body.classList.add("overflow-hidden");
     updateHeaderBg();
   }
 
-  btn?.addEventListener("click", toggleMenu);
+  function closeMenu() {
+    if (!menu) return;
+    menu.classList.remove("opacity-100");
+    menu.classList.add("opacity-0");
+    menu.dataset.open = "false";
+    iconOpen?.classList.remove("hidden");
+    iconClose?.classList.add("hidden");
+    document.body.classList.remove("overflow-hidden");
+    // Wait for fade-out then hide
+    setTimeout(() => {
+      if (!isMenuOpen()) {
+        menu.classList.add("hidden");
+      }
+    }, 300);
+    updateHeaderBg();
+  }
+
+  btn?.addEventListener("click", () => {
+    isMenuOpen() ? closeMenu() : openMenu();
+  });
+
   window.addEventListener("scroll", updateHeaderBg);
 
   document.querySelectorAll(".mobile-nav-link").forEach((link) => {
-    link.addEventListener("click", () => {
-      menu?.classList.add("hidden");
-      iconOpen?.classList.remove("hidden");
-      iconClose?.classList.add("hidden");
-      document.body.classList.remove("overflow-hidden");
-      updateHeaderBg();
-    });
+    link.addEventListener("click", closeMenu);
   });
 </script>

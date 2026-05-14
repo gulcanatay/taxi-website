@@ -15,6 +15,7 @@ export const de: Translations = {
     whatsapp: "WhatsApp",
     directCall: "Oder Direktanruf",
     chooseLanguage: "Sprache wählen",
+    whatsappBooking: "Per WhatsApp buchen",
   },
   footer: {
     allRightsReserved: "Alle Rechte vorbehalten.",

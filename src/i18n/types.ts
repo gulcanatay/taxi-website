@@ -9,6 +9,7 @@ export interface Translations {
     whatsapp: string;
     directCall: string;
     chooseLanguage: string;
+    whatsappBooking: string;
   };
   footer: {
     allRightsReserved: string;
