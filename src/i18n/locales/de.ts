@@ -25,7 +25,7 @@ export const de: Translations = {
     headline: "Ihre Fahrerin in",
     headlineHighlight: "Sicher & pünktlich ans Ziel.",
     description:
-      "Flughafentransfer oder Fernstrecke — Ihre erfahrene Fahrerin bringt Sie sicher und komfortabel ans Ziel.",
+      'Ob <span class="bg-taxi-400 text-dark px-1 rounded">Flughafentransfer</span>, <span class="bg-taxi-400 text-dark px-1 rounded">Langstreckenfahrt</span> oder <span class="bg-taxi-400 text-dark px-1 rounded">Business-Transport</span> — Ihre erfahrene Fahrerin bringt Sie sicher und komfortabel ans Ziel.',
     ctaReserve: "Jetzt reservieren",
     featureAirport: "Flughafentransfers",
     featureLongDistance: "Langstreckenfahrten",

@@ -25,7 +25,7 @@ export const fr: Translations = {
     headline: "Votre conductrice à",
     headlineHighlight: "En sécurité et à l'heure.",
     description:
-      "Transfert aéroport ou longue distance — votre conductrice expérimentée vous emmène en toute sécurité et confort à destination.",
+      '<span class="bg-taxi-400 text-dark px-1 rounded">Transfert aéroport</span>, <span class="bg-taxi-400 text-dark px-1 rounded">trajet longue distance</span> ou <span class="bg-taxi-400 text-dark px-1 rounded">transport professionnel</span> — votre conductrice expérimentée vous emmène en toute sécurité et confort à destination.',
     ctaReserve: "Réserver maintenant",
     featureAirport: "Transferts aéroport",
     featureLongDistance: "Trajets longue distance",
@@ -228,7 +228,7 @@ export const fr: Translations = {
       },
     ],
     whatsappMessage:
-      "Bonjour, je souhaite réserver un transfert aéroport.",
+      "Hello, I would like to book an airport transfer.",
   },
   impressum: {
     metaTitle: "Mentions légales",
@@ -329,7 +329,7 @@ export const fr: Translations = {
   whatsapp: {
     ariaLabel: "Discuter sur WhatsApp",
     message:
-      "Bonjour, je souhaite réserver un trajet. Pouvez-vous m'aider ?",
+      "Hello, I would like to book a ride. Can you help me?",
   },
   routes: {
     home: "",

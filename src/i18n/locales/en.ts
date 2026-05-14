@@ -25,7 +25,7 @@ export const en: Translations = {
     headline: "Your driver in",
     headlineHighlight: "Safe & on time to your destination.",
     description:
-      "Airport transfer or long distance — your experienced driver takes you safely and comfortably to your destination.",
+      'Whether <span class="bg-taxi-400 text-dark px-1 rounded">airport transfer</span>, <span class="bg-taxi-400 text-dark px-1 rounded">long-distance ride</span> or <span class="bg-taxi-400 text-dark px-1 rounded">business transport</span> — your experienced driver takes you safely and comfortably to your destination.',
     ctaReserve: "Book now",
     featureAirport: "Airport transfers",
     featureLongDistance: "Long-distance rides",
