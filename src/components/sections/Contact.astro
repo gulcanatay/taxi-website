@@ -1,5 +1,6 @@
 ---
 import ReservationForm from "../ui/ReservationForm.astro";
+import { Banknote, CreditCard, Smartphone } from "@lucide/astro";
 import type { Translations } from "../../i18n/types";
 
 interface Props {
@@ -23,8 +24,26 @@ const { t } = Astro.props;
       </p>
     </div>
 
-    <div class="max-w-lg mx-auto">
+    <div class="max-w-3xl mx-auto">
       <ReservationForm t={t} />
+
+      <div class="mt-8 text-center">
+        <p class="text-sm text-gray-500 mb-3">{t.payment.title}</p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-white border border-gray-200 px-4 py-2 text-sm text-gray-700">
+            <Banknote class="h-4 w-4 text-taxi-500" />
+            {t.payment.cash}
+          </span>
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-white border border-gray-200 px-4 py-2 text-sm text-gray-700">
+            <CreditCard class="h-4 w-4 text-taxi-500" />
+            {t.payment.card}
+          </span>
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-white border border-gray-200 px-4 py-2 text-sm text-gray-700">
+            <Smartphone class="h-4 w-4 text-taxi-500" />
+            {t.payment.contactless}
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </section>

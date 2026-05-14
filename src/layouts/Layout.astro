@@ -67,6 +67,44 @@ const otherLocales = (["de", "en", "fr"] as Locale[]).filter((l) => l !== locale
 
     <title>{title}</title>
 
+    <!-- Language detection & redirect on first visit -->
+    {alternateUrls && (
+      <script
+        is:inline
+        data-locale={locale}
+        data-alternate-urls={JSON.stringify(alternateUrls)}
+      >
+        (function () {
+          var script = document.currentScript;
+          var currentLocale = script.getAttribute("data-locale");
+          var alternateUrls = JSON.parse(script.getAttribute("data-alternate-urls"));
+
+          // Skip if user already made a manual language choice
+          if (localStorage.getItem("lang-preference")) return;
+          // Skip if we already ran detection for this session
+          if (localStorage.getItem("lang-detected")) return;
+
+          localStorage.setItem("lang-detected", "true");
+
+          var supported = ["de", "en", "fr"];
+          var browserLangs = navigator.languages || [navigator.language];
+          var matched = null;
+
+          for (var i = 0; i < browserLangs.length; i++) {
+            var lang = browserLangs[i].toLowerCase().split("-")[0];
+            if (supported.indexOf(lang) !== -1) {
+              matched = lang;
+              break;
+            }
+          }
+
+          if (matched && matched !== currentLocale && alternateUrls[matched]) {
+            window.location.replace(alternateUrls[matched]);
+          }
+        })();
+      </script>
+    )}
+
     <!-- JSON-LD Structured Data -->
     <script
       type="application/ld+json"

@@ -9,17 +9,18 @@ interface Props {
   locale: Locale;
   t: Translations;
   alternateUrls: Record<Locale, string>;
+  solid?: boolean;
 }
 
-const { locale, t, alternateUrls } = Astro.props;
+const { locale, t, alternateUrls, solid = false } = Astro.props;
 const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeURIComponent(t.whatsapp.message)}`;
 ---
 
-<header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-[background-color] duration-200 pt-[env(safe-area-inset-top)]">
+<header id="site-header" class:list={["fixed top-0 left-0 right-0 z-50 transition-[background-color] duration-200 pt-[env(safe-area-inset-top)]", solid && "bg-dark"]} data-solid={solid ? "true" : undefined}>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="relative flex h-20 items-center justify-between">
       <!-- Logo -->
-      <a href={locale === "de" ? "/" : `/${locale}/`}>
+      <a href={locale === "de" ? "/" : `/${locale}/`} class="-ml-6 md:ml-0">
         <img src="/Logo_Yellow.png" alt={siteConfig.name} class="h-12" />
       </a>
 
@@ -47,46 +48,24 @@ const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeUR
         </a>
       </div>
 
-      <!-- Mobile Menu Button -->
-      <button
-        id="mobile-menu-btn"
-        class="md:hidden p-2 text-taxi-400 hover:text-white"
-        aria-label={t.header.menuOpen}
-      >
-        <Menu class="h-6 w-6" id="menu-icon-open" />
-        <X class="h-6 w-6 hidden" id="menu-icon-close" />
-      </button>
+      <!-- Mobile: Language + Menu Button -->
+      <div class="flex md:hidden items-center gap-1">
+        <LanguageSwitcher currentLocale={locale} alternateUrls={alternateUrls} compact />
+        <button
+          id="mobile-menu-btn"
+          class="p-2 text-taxi-400 hover:text-white"
+          aria-label={t.header.menuOpen}
+        >
+          <Menu class="h-6 w-6" id="menu-icon-open" />
+          <X class="h-6 w-6 hidden" id="menu-icon-close" />
+        </button>
+      </div>
     </div>
   </div>
 
   <!-- Mobile Nav (full-screen overlay) -->
   <div id="mobile-menu" class="hidden md:hidden fixed inset-0 top-0 z-[-1] bg-dark pt-[calc(5rem+env(safe-area-inset-top))] overflow-y-auto opacity-0 transition-opacity duration-300" data-menu-overlay>
     <nav class="flex flex-col items-center px-4 py-6 gap-5 text-center border-t border-white/10">
-      <!-- Language links -->
-      <div class="menu-item flex flex-col items-center gap-3">
-        <p class="text-xs text-gray-400 uppercase tracking-wider">{t.header.chooseLanguage}</p>
-        {[
-          { code: "de" as const, label: "Deutsch", flag: "🇩🇪" },
-          { code: "en" as const, label: "English", flag: "🇬🇧" },
-          { code: "fr" as const, label: "Français", flag: "🇫🇷" },
-        ].map((lang) => (
-          <a
-            href={alternateUrls[lang.code]}
-            hreflang={lang.code}
-            class:list={[
-              "mobile-nav-link flex items-center gap-2 text-sm font-semibold transition-colors",
-              lang.code === locale
-                ? "text-taxi-400"
-                : "text-gray-400 hover:text-white",
-            ]}
-            aria-current={lang.code === locale ? "page" : undefined}
-          >
-            <span class="text-base leading-none">{lang.flag}</span>
-            <span>{lang.label}</span>
-          </a>
-        ))}
-      </div>
-      <div class="menu-item w-full border-b border-white/10"></div>
       {t.nav.map((item) => (
         <a
           href={locale === "de" ? item.href : `/${locale}${item.href}`}
@@ -136,8 +115,10 @@ const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeUR
     return menu?.dataset.open === "true";
   }
 
+  const isSolid = header?.dataset.solid === "true";
+
   function updateHeaderBg() {
-    if (isMenuOpen() || window.scrollY > 50) {
+    if (isSolid || isMenuOpen() || window.scrollY > 50) {
       header?.classList.add("bg-dark");
     } else {
       header?.classList.remove("bg-dark");

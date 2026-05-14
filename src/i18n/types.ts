@@ -45,22 +45,45 @@ export interface Translations {
     description: string;
   };
   form: {
+    groupRide: string;
+    groupPersonal: string;
+    groupAdditional: string;
+    nameLabel: string;
+    namePlaceholder: string;
     fromLabel: string;
     fromPlaceholder: string;
     toLabel: string;
     toPlaceholder: string;
-    datetimeLabel: string;
+    dateLabel: string;
+    timeLabel: string;
     phoneLabel: string;
     phonePlaceholder: string;
     emailLabel: string;
     emailPlaceholder: string;
+    passengersLabel: string;
+    passengersPlaceholder: string;
+    flightLabel: string;
+    flightPlaceholder: string;
+    messageLabel: string;
+    messagePlaceholder: string;
     submit: string;
     whatsappPrefix: string;
+    nameField: string;
     fromField: string;
     toField: string;
     dateField: string;
+    timeField: string;
     phoneField: string;
     emailField: string;
+    passengersField: string;
+    flightField: string;
+    messageField: string;
+  };
+  payment: {
+    title: string;
+    cash: string;
+    card: string;
+    contactless: string;
   };
   about: {
     tagline: string;

@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from "../../config/site";
+import { Route, User, MessageSquare } from "@lucide/astro";
 import type { Translations } from "../../i18n/types";
 
 interface Props {
@@ -10,93 +11,219 @@ interface Props {
 
 const { t, defaultTo = "", id = "reservation-form" } = Astro.props;
 const whatsappNumber = siteConfig.whatsapp.number;
-const whatsappPrefix = t.form.whatsappPrefix;
-const fromField = t.form.fromField;
-const toField = t.form.toField;
-const dateField = t.form.dateField;
-const phoneField = t.form.phoneField;
-const emailField = t.form.emailField;
+
+const fieldLabels = JSON.stringify({
+  whatsappPrefix: t.form.whatsappPrefix,
+  nameField: t.form.nameField,
+  fromField: t.form.fromField,
+  toField: t.form.toField,
+  dateField: t.form.dateField,
+  timeField: t.form.timeField,
+  phoneField: t.form.phoneField,
+  emailField: t.form.emailField,
+  passengersField: t.form.passengersField,
+  flightField: t.form.flightField,
+  messageField: t.form.messageField,
+});
+
+const inputClass =
+  "w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-taxi-400 focus:border-transparent";
 ---
 
-<form id={id} class="rounded-2xl bg-white border border-gray-100 p-8 space-y-6">
-  <div>
-    <label for={`${id}-from`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.fromLabel}</label>
-    <input
-      type="text"
-      id={`${id}-from`}
-      name="from"
-      required
-      class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-taxi-400 focus:border-transparent"
-      placeholder={t.form.fromPlaceholder}
-    />
-  </div>
-  <div>
-    <label for={`${id}-to`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.toLabel}</label>
-    <input
-      type="text"
-      id={`${id}-to`}
-      name="to"
-      required
-      value={defaultTo}
-      class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-taxi-400 focus:border-transparent"
-      placeholder={t.form.toPlaceholder}
-    />
-  </div>
-  <div>
-    <label for={`${id}-datetime`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.datetimeLabel}</label>
-    <input
-      type="datetime-local"
-      id={`${id}-datetime`}
-      name="datetime"
-      required
-      class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-taxi-400 focus:border-transparent"
-    />
-  </div>
-  <div>
-    <label for={`${id}-phone`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.phoneLabel}</label>
-    <input
-      type="tel"
-      id={`${id}-phone`}
-      name="phone"
-      required
-      class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-taxi-400 focus:border-transparent"
-      placeholder={t.form.phonePlaceholder}
-    />
-  </div>
-  <div>
-    <label for={`${id}-email`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.emailLabel}</label>
-    <input
-      type="email"
-      id={`${id}-email`}
-      name="email"
-      required
-      class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-taxi-400 focus:border-transparent"
-      placeholder={t.form.emailPlaceholder}
-    />
-  </div>
+<form id={id} class="rounded-2xl bg-white border border-gray-100 p-6 sm:p-8 space-y-8">
+  <!-- Ride Details -->
+  <fieldset>
+    <legend class="text-lg font-semibold text-dark mb-4 flex items-center gap-2">
+      <Route class="h-5 w-5 text-taxi-500" />
+      {t.form.groupRide}
+    </legend>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label for={`${id}-from`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.fromLabel}</label>
+        <input
+          type="text"
+          id={`${id}-from`}
+          name="from"
+          required
+          class={inputClass}
+          placeholder={t.form.fromPlaceholder}
+        />
+      </div>
+      <div>
+        <label for={`${id}-to`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.toLabel}</label>
+        <input
+          type="text"
+          id={`${id}-to`}
+          name="to"
+          required
+          value={defaultTo}
+          class={inputClass}
+          placeholder={t.form.toPlaceholder}
+        />
+      </div>
+      <div>
+        <label for={`${id}-date`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.dateLabel}</label>
+        <input
+          type="date"
+          id={`${id}-date`}
+          name="date"
+          required
+          class={inputClass}
+        />
+      </div>
+      <div>
+        <label for={`${id}-time`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.timeLabel}</label>
+        <input
+          type="time"
+          id={`${id}-time`}
+          name="time"
+          required
+          class={inputClass}
+        />
+      </div>
+      <div>
+        <label for={`${id}-passengers`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.passengersLabel}</label>
+        <select
+          id={`${id}-passengers`}
+          name="passengers"
+          required
+          class={inputClass}
+        >
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+            <option value={n}>{n}</option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <label for={`${id}-flight`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.flightLabel}</label>
+        <input
+          type="text"
+          id={`${id}-flight`}
+          name="flight"
+          class={inputClass}
+          placeholder={t.form.flightPlaceholder}
+        />
+      </div>
+    </div>
+  </fieldset>
+
+  <hr class="border-gray-200" />
+
+  <!-- Personal Details -->
+  <fieldset>
+    <legend class="text-lg font-semibold text-dark mb-4 flex items-center gap-2">
+      <User class="h-5 w-5 text-taxi-500" />
+      {t.form.groupPersonal}
+    </legend>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label for={`${id}-name`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.nameLabel}</label>
+        <input
+          type="text"
+          id={`${id}-name`}
+          name="name"
+          required
+          class={inputClass}
+          placeholder={t.form.namePlaceholder}
+        />
+      </div>
+      <div>
+        <label for={`${id}-phone`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.phoneLabel}</label>
+        <input
+          type="tel"
+          id={`${id}-phone`}
+          name="phone"
+          required
+          class={inputClass}
+          placeholder={t.form.phonePlaceholder}
+        />
+      </div>
+      <div class="sm:col-span-2">
+        <label for={`${id}-email`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.emailLabel}</label>
+        <input
+          type="email"
+          id={`${id}-email`}
+          name="email"
+          class={inputClass}
+          placeholder={t.form.emailPlaceholder}
+        />
+      </div>
+    </div>
+  </fieldset>
+
+  <hr class="border-gray-200" />
+
+  <!-- Additional Info -->
+  <fieldset>
+    <legend class="text-lg font-semibold text-dark mb-4 flex items-center gap-2">
+      <MessageSquare class="h-5 w-5 text-taxi-500" />
+      {t.form.groupAdditional}
+    </legend>
+    <div>
+      <label for={`${id}-message`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.messageLabel}</label>
+      <textarea
+        id={`${id}-message`}
+        name="message"
+        rows="3"
+        class:list={[inputClass, "resize-none"]}
+        placeholder={t.form.messagePlaceholder}
+      ></textarea>
+    </div>
+  </fieldset>
+
   <button
     type="submit"
-    class="w-full rounded-full bg-taxi-400 px-6 py-3 font-semibold text-dark hover:bg-taxi-500 transition-colors"
+    class="w-full rounded-full bg-taxi-400 px-6 py-3.5 font-semibold text-dark hover:bg-taxi-500 transition-colors text-base"
   >
     {t.form.submit}
   </button>
 </form>
 
-<script define:vars={{ whatsappNumber, id, whatsappPrefix, fromField, toField, dateField, phoneField, emailField }}>
+<script define:vars={{ whatsappNumber, id, fieldLabels }}>
+  const labels = JSON.parse(fieldLabels);
   const form = document.getElementById(id);
+
+  // Set min date to today
+  const dateInput = document.getElementById(`${id}-date`);
+  if (dateInput) {
+    const today = new Date().toISOString().split("T")[0];
+    dateInput.setAttribute("min", today);
+  }
+
   form?.addEventListener("submit", (e) => {
     e.preventDefault();
     const data = new FormData(form);
-    const text = [
-      whatsappPrefix,
-      `${fromField}: ${data.get("from")}`,
-      `${toField}: ${data.get("to")}`,
-      `${dateField}: ${data.get("datetime")}`,
-      `${phoneField}: ${data.get("phone")}`,
-      `${emailField}: ${data.get("email")}`,
-    ].join("\n");
+
+    // Format date as DD.MM.YYYY
+    const rawDate = data.get("date");
+    let formattedDate = rawDate;
+    if (rawDate) {
+      const [y, m, d] = rawDate.split("-");
+      formattedDate = `${d}.${m}.${y}`;
+    }
+
+    const lines = [
+      labels.whatsappPrefix,
+      `${labels.nameField}: ${data.get("name")}`,
+      `${labels.fromField}: ${data.get("from")}`,
+      `${labels.toField}: ${data.get("to")}`,
+      `${labels.dateField}: ${formattedDate}`,
+      `${labels.timeField}: ${data.get("time")}`,
+      `${labels.passengersField}: ${data.get("passengers")}`,
+      `${labels.phoneField}: ${data.get("phone")}`,
+    ];
+
+    const email = data.get("email");
+    if (email) lines.push(`${labels.emailField}: ${email}`);
+
+    const flight = data.get("flight");
+    if (flight) lines.push(`${labels.flightField}: ${flight}`);
+
+    const message = data.get("message");
+    if (message) lines.push(`${labels.messageField}: ${message}`);
+
     window.open(
-      `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`,
+      `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`,
       "_blank"
     );
   });

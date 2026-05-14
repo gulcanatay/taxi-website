@@ -22,7 +22,7 @@ const alternateUrls = getAlternateUrls("impressum");
   t={t}
   alternateUrls={alternateUrls}
 >
-  <Header locale={locale} t={t} alternateUrls={alternateUrls} />
+  <Header locale={locale} t={t} alternateUrls={alternateUrls} solid />
   <main class="pt-24 pb-20">
     <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
       <h1 class="text-3xl sm:text-4xl font-bold text-dark mb-8">{t.impressum.title}</h1>
@@ -43,14 +43,6 @@ const alternateUrls = getAlternateUrls("impressum");
           <p>
             {t.form.phoneLabel}: <a href={`tel:${siteConfig.phone}`} class="text-taxi-600 hover:text-taxi-700">{siteConfig.phoneDisplay}</a><br />
             {t.form.emailLabel}: <a href={`mailto:${siteConfig.email}`} class="text-taxi-600 hover:text-taxi-700">{siteConfig.email}</a>
-          </p>
-        </section>
-
-        <section>
-          <h2 class="text-xl font-semibold text-dark mb-3">{t.impressum.vatId}</h2>
-          <p>
-            {t.impressum.vatIdContent}<br />
-            {siteConfig.business.taxId}
           </p>
         </section>
 

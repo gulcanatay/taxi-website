@@ -5,8 +5,8 @@ export const siteConfig = {
   phoneDisplay: "+49 176 30576513",
   email: "info@taxi-service.de",
   address: {
-    street: "Musterstraße 1",
-    zip: "80331",
+    street: "Hans-Stützle-Str. 6",
+    zip: "81249",
     city: "München",
   },
   hours: {
@@ -22,8 +22,7 @@ export const siteConfig = {
     linkUrl: "https://goo.gl/maps/example",
   },
   business: {
-    owner: "Max Mustermann",
-    taxId: "DE123456789",
+    owner: "Gülcan Atay",
     registrationAuthority: "Gewerbeamt München",
   },
 } as const;
