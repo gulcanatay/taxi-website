@@ -1,58 +1,43 @@
 ---
-import { Plane, Building2, Briefcase, UserCheck } from "@lucide/astro";
+import { Plane, Route, Briefcase, UserCheck } from "@lucide/astro";
+import type { Translations } from "../../i18n/types";
 
-const services = [
-  {
-    icon: Plane,
-    title: "Flughafentransfer",
-    description:
-      "Pünktliche Abholung und Lieferung zum Flughafen. Wir überwachen Ihren Flugstatus und passen die Abholzeit bei Bedarf an.",
-  },
-  {
-    icon: UserCheck,
-    title: "Ihre Fahrerin",
-    description:
-      "Als erfahrene Taxifahrerin kenne ich mich bestens in der Region aus und bringe Sie sicher ans Ziel.",
-  },
-  {
-    icon: Briefcase,
-    title: "Business-Transport",
-    description:
-      "Professioneller Fahrservice für Geschäftskunden. Diskretion, Pünktlichkeit und erstklassiger Komfort garantiert.",
-  },
-  {
-    icon: Building2,
-    title: "Stadtfahrten",
-    description:
-      "Schnell und sicher durch die Stadt. Ob zum Termin, Restaurant oder nach Hause — wir kennen den besten Weg.",
-  },
-];
+interface Props {
+  t: Translations;
+}
+
+const { t } = Astro.props;
+
+const icons = [Plane, UserCheck, Briefcase, Route];
 ---
 
-<section id="leistungen" class="py-20 bg-white">
+<section id="services" class="py-20 bg-white">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
       <p class="text-taxi-500 font-semibold text-sm uppercase tracking-wider mb-2">
-        Unsere Leistungen
+        {t.services.tagline}
       </p>
       <h2 class="text-3xl sm:text-4xl font-bold text-dark">
-        Ihr Taxi — Ihr Service
+        {t.services.title}
       </h2>
       <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
-        Von kurzen Stadtfahrten bis zu langen Strecken — Ihre persönliche Fahrerin für jeden Anlass.
+        {t.services.description}
       </p>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-      {services.map((service) => (
-        <div class="group rounded-2xl border border-gray-100 p-6 hover:border-taxi-400 hover:shadow-lg transition-all">
-          <div class="mb-4 inline-flex items-center justify-center rounded-xl bg-taxi-50 p-3 text-taxi-500 group-hover:bg-taxi-400 group-hover:text-dark transition-colors">
-            <service.icon class="h-6 w-6" />
+      {t.services.items.map((service, i) => {
+        const Icon = icons[i];
+        return (
+          <div class="group rounded-2xl border border-gray-100 p-6 hover:border-taxi-400 hover:shadow-lg transition-all">
+            <div class="mb-4 inline-flex items-center justify-center rounded-xl bg-taxi-50 p-3 text-taxi-500 group-hover:bg-taxi-400 group-hover:text-dark transition-colors">
+              <Icon class="h-6 w-6" />
+            </div>
+            <h3 class="text-lg font-semibold text-dark mb-2">{service.title}</h3>
+            <p class="text-sm text-gray-600 leading-relaxed">{service.description}</p>
           </div>
-          <h3 class="text-lg font-semibold text-dark mb-2">{service.title}</h3>
-          <p class="text-sm text-gray-600 leading-relaxed">{service.description}</p>
-        </div>
-      ))}
+        );
+      })}
     </div>
   </div>
 </section>

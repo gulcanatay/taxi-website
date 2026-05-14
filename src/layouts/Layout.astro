@@ -2,20 +2,38 @@
 import "../styles/global.css";
 import { siteConfig } from "../config/site";
 import WhatsAppFloat from "../components/ui/WhatsAppFloat.astro";
+import type { Locale } from "../i18n";
+import type { Translations } from "../i18n/types";
 
 interface Props {
   title?: string;
   description?: string;
+  locale?: Locale;
+  t?: Translations;
+  alternateUrls?: Record<Locale, string>;
 }
 
-const { title = siteConfig.name, description = siteConfig.description } =
-  Astro.props;
+const {
+  title = siteConfig.name,
+  description = "",
+  locale = "de",
+  t,
+  alternateUrls,
+} = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
+
+const ogLocaleMap: Record<Locale, string> = {
+  de: "de_DE",
+  en: "en_US",
+  fr: "fr_FR",
+};
+
+const otherLocales = (["de", "en", "fr"] as Locale[]).filter((l) => l !== locale);
 ---
 
 <!doctype html>
-<html lang="de" class="scroll-smooth">
+<html lang={locale} class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -24,11 +42,22 @@ const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonicalUrl} />
 
+    <!-- hreflang -->
+    {alternateUrls && Object.entries(alternateUrls).map(([loc, path]) => (
+      <link rel="alternate" hreflang={loc} href={new URL(path, siteConfig.url).href} />
+    ))}
+    {alternateUrls && (
+      <link rel="alternate" hreflang="x-default" href={new URL(alternateUrls.de, siteConfig.url).href} />
+    )}
+
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="de_DE" />
+    <meta property="og:locale" content={ogLocaleMap[locale]} />
+    {otherLocales.map((l) => (
+      <meta property="og:locale:alternate" content={ogLocaleMap[l]} />
+    ))}
     <meta property="og:url" content={canonicalUrl} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -44,9 +73,10 @@ const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
         "@context": "https://schema.org",
         "@type": "TaxiService",
         name: siteConfig.name,
-        description: siteConfig.description,
+        description: description,
         telephone: siteConfig.phone,
         email: siteConfig.email,
+        inLanguage: locale,
         address: {
           "@type": "PostalAddress",
           streetAddress: siteConfig.address.street,
@@ -59,6 +89,6 @@ const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url).href;
   </head>
   <body class="bg-white text-dark antialiased">
     <slot />
-    <WhatsAppFloat />
+    {t && <WhatsAppFloat t={t} />}
   </body>
 </html>

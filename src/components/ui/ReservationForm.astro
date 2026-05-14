@@ -1,29 +1,37 @@
 ---
 import { siteConfig } from "../../config/site";
+import type { Translations } from "../../i18n/types";
 
 interface Props {
+  t: Translations;
   defaultTo?: string;
   id?: string;
 }
 
-const { defaultTo = "", id = "reservation-form" } = Astro.props;
+const { t, defaultTo = "", id = "reservation-form" } = Astro.props;
 const whatsappNumber = siteConfig.whatsapp.number;
+const whatsappPrefix = t.form.whatsappPrefix;
+const fromField = t.form.fromField;
+const toField = t.form.toField;
+const dateField = t.form.dateField;
+const phoneField = t.form.phoneField;
+const emailField = t.form.emailField;
 ---
 
 <form id={id} class="rounded-2xl bg-white border border-gray-100 p-8 space-y-6">
   <div>
-    <label for={`${id}-from`} class="block text-sm font-medium text-gray-700 mb-1">Von (Abholort)</label>
+    <label for={`${id}-from`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.fromLabel}</label>
     <input
       type="text"
       id={`${id}-from`}
       name="from"
       required
       class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-taxi-400 focus:border-transparent"
-      placeholder="z.B. Hauptbahnhof München"
+      placeholder={t.form.fromPlaceholder}
     />
   </div>
   <div>
-    <label for={`${id}-to`} class="block text-sm font-medium text-gray-700 mb-1">Nach (Zielort)</label>
+    <label for={`${id}-to`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.toLabel}</label>
     <input
       type="text"
       id={`${id}-to`}
@@ -31,11 +39,11 @@ const whatsappNumber = siteConfig.whatsapp.number;
       required
       value={defaultTo}
       class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-taxi-400 focus:border-transparent"
-      placeholder="z.B. Flughafen München"
+      placeholder={t.form.toPlaceholder}
     />
   </div>
   <div>
-    <label for={`${id}-datetime`} class="block text-sm font-medium text-gray-700 mb-1">Datum & Uhrzeit</label>
+    <label for={`${id}-datetime`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.datetimeLabel}</label>
     <input
       type="datetime-local"
       id={`${id}-datetime`}
@@ -45,47 +53,47 @@ const whatsappNumber = siteConfig.whatsapp.number;
     />
   </div>
   <div>
-    <label for={`${id}-phone`} class="block text-sm font-medium text-gray-700 mb-1">Telefon</label>
+    <label for={`${id}-phone`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.phoneLabel}</label>
     <input
       type="tel"
       id={`${id}-phone`}
       name="phone"
       required
       class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-taxi-400 focus:border-transparent"
-      placeholder="z.B. 0170 1234567"
+      placeholder={t.form.phonePlaceholder}
     />
   </div>
   <div>
-    <label for={`${id}-email`} class="block text-sm font-medium text-gray-700 mb-1">E-Mail</label>
+    <label for={`${id}-email`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.emailLabel}</label>
     <input
       type="email"
       id={`${id}-email`}
       name="email"
       required
       class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-taxi-400 focus:border-transparent"
-      placeholder="ihre@email.de"
+      placeholder={t.form.emailPlaceholder}
     />
   </div>
   <button
     type="submit"
     class="w-full rounded-full bg-taxi-400 px-6 py-3 font-semibold text-dark hover:bg-taxi-500 transition-colors"
   >
-    Fahrt reservieren
+    {t.form.submit}
   </button>
 </form>
 
-<script define:vars={{ whatsappNumber, id }}>
+<script define:vars={{ whatsappNumber, id, whatsappPrefix, fromField, toField, dateField, phoneField, emailField }}>
   const form = document.getElementById(id);
   form?.addEventListener("submit", (e) => {
     e.preventDefault();
     const data = new FormData(form);
     const text = [
-      "Neue Reservierung:",
-      `Von: ${data.get("from")}`,
-      `Nach: ${data.get("to")}`,
-      `Datum: ${data.get("datetime")}`,
-      `Telefon: ${data.get("phone")}`,
-      `E-Mail: ${data.get("email")}`,
+      whatsappPrefix,
+      `${fromField}: ${data.get("from")}`,
+      `${toField}: ${data.get("to")}`,
+      `${dateField}: ${data.get("datetime")}`,
+      `${phoneField}: ${data.get("phone")}`,
+      `${emailField}: ${data.get("email")}`,
     ].join("\n");
     window.open(
       `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`,

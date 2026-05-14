@@ -1,12 +1,24 @@
 ---
 import { Phone } from "@lucide/astro";
 import { siteConfig } from "../../config/site";
+import LanguageSwitcher from "../ui/LanguageSwitcher.astro";
+import type { Locale } from "../../i18n";
+import type { Translations } from "../../i18n/types";
+import { localePath } from "../../i18n";
+
+interface Props {
+  locale: Locale;
+  t: Translations;
+  alternateUrls: Record<Locale, string>;
+}
+
+const { locale, t, alternateUrls } = Astro.props;
 ---
 
 <footer class="bg-dark text-gray-300">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
     <div class="flex flex-col items-center text-center gap-6">
-      <a href="/">
+      <a href={locale === "de" ? "/" : `/${locale}/`}>
         <img src="/Logo_Yellow.png" alt={siteConfig.name} class="h-14" />
       </a>
 
@@ -17,13 +29,15 @@ import { siteConfig } from "../../config/site";
         <Phone class="h-5 w-5" />
         {siteConfig.phoneDisplay}
       </a>
+
+      <LanguageSwitcher currentLocale={locale} alternateUrls={alternateUrls} />
     </div>
 
     <div class="mt-10 pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-      <p>&copy; {new Date().getFullYear()} {siteConfig.name}. Alle Rechte vorbehalten.</p>
+      <p>&copy; {new Date().getFullYear()} {siteConfig.name}. {t.footer.allRightsReserved}</p>
       <div class="flex gap-6">
-        <a href="/impressum" class="hover:text-white transition-colors">Impressum</a>
-        <a href="/datenschutz" class="hover:text-white transition-colors">Datenschutz</a>
+        <a href={localePath(locale, t.routes.impressum)} class="hover:text-white transition-colors">{t.footer.impressum}</a>
+        <a href={localePath(locale, t.routes.datenschutz)} class="hover:text-white transition-colors">{t.footer.datenschutz}</a>
       </div>
     </div>
   </div>

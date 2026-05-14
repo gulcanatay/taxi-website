@@ -1,0 +1,105 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../layout/Header.astro";
+import Footer from "../layout/Footer.astro";
+import { getTranslations, getAlternateUrls } from "../../i18n";
+import type { Locale } from "../../i18n";
+import { siteConfig } from "../../config/site";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale);
+const alternateUrls = getAlternateUrls("impressum");
+---
+
+<Layout
+  title={`${t.impressum.metaTitle} | ${siteConfig.name}`}
+  description={t.impressum.metaDescription}
+  locale={locale}
+  t={t}
+  alternateUrls={alternateUrls}
+>
+  <Header locale={locale} t={t} alternateUrls={alternateUrls} />
+  <main class="pt-24 pb-20">
+    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl sm:text-4xl font-bold text-dark mb-8">{t.impressum.title}</h1>
+
+      <div class="space-y-8 text-gray-600 leading-relaxed">
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">{t.impressum.ddg}</h2>
+          <p>
+            {siteConfig.business.owner}<br />
+            {siteConfig.name}<br />
+            {siteConfig.address.street}<br />
+            {siteConfig.address.zip} {siteConfig.address.city}
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">{t.impressum.contact}</h2>
+          <p>
+            {t.form.phoneLabel}: <a href={`tel:${siteConfig.phone}`} class="text-taxi-600 hover:text-taxi-700">{siteConfig.phoneDisplay}</a><br />
+            {t.form.emailLabel}: <a href={`mailto:${siteConfig.email}`} class="text-taxi-600 hover:text-taxi-700">{siteConfig.email}</a>
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">{t.impressum.vatId}</h2>
+          <p>
+            {t.impressum.vatIdContent}<br />
+            {siteConfig.business.taxId}
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">{t.impressum.businessReg}</h2>
+          <p>
+            {t.impressum.businessRegContent.replace("{authority}", siteConfig.business.registrationAuthority)}
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">{t.impressum.responsibleTitle}</h2>
+          <p>
+            {siteConfig.business.owner}<br />
+            {siteConfig.address.street}<br />
+            {siteConfig.address.zip} {siteConfig.address.city}
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">{t.impressum.disputeResolution}</h2>
+          <p>
+            {t.impressum.disputeResolutionContent}
+            <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" class="text-taxi-600 hover:text-taxi-700">
+              https://ec.europa.eu/consumers/odr/
+            </a>
+          </p>
+          <p class="mt-2">
+            {t.impressum.disputeResolutionNote}
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">{t.impressum.contentLiability}</h2>
+          <p>{t.impressum.contentLiabilityText}</p>
+          <p class="mt-2">{t.impressum.contentLiabilityText2}</p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">{t.impressum.linkLiability}</h2>
+          <p>{t.impressum.linkLiabilityText}</p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-dark mb-3">{t.impressum.copyright}</h2>
+          <p>{t.impressum.copyrightText}</p>
+        </section>
+      </div>
+    </div>
+  </main>
+  <Footer locale={locale} t={t} alternateUrls={alternateUrls} />
+</Layout>

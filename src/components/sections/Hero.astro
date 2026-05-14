@@ -1,8 +1,14 @@
 ---
-import { UserCheck, Shield } from "@lucide/astro";
+import { Plane, Route, Briefcase } from "@lucide/astro";
 import { siteConfig } from "../../config/site";
+import type { Translations } from "../../i18n/types";
 
-const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeURIComponent(siteConfig.whatsapp.message)}`;
+interface Props {
+  t: Translations;
+}
+
+const { t } = Astro.props;
+const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeURIComponent(t.whatsapp.message)}`;
 ---
 
 <section id="hero" class="relative min-h-screen flex items-center bg-dark pt-16">
@@ -15,22 +21,21 @@ const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeUR
   <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
     <div class="max-w-3xl">
       <p class="text-taxi-400 font-semibold text-sm uppercase tracking-wider mb-4">
-        Ihr Taxi in {siteConfig.address.city}
+        {t.hero.tagline} {siteConfig.address.city}
       </p>
       <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-        Ihre Fahrerin in {siteConfig.address.city}.
-        <span class="text-taxi-400">Sicher & pünktlich ans Ziel.</span>
+        {t.hero.headline} {siteConfig.address.city}.
+        <span class="text-taxi-400">{t.hero.headlineHighlight}</span>
       </h1>
       <p class="mt-6 text-lg text-gray-300 max-w-xl">
-        Flughafentransfer, Stadtfahrt oder Fernstrecke — Ihre erfahrene Fahrerin bringt
-        Sie sicher und komfortabel ans Ziel.
+        {t.hero.description}
       </p>
       <div class="mt-10 flex flex-col sm:flex-row gap-4">
         <a
-          href="/#reservierung"
+          href="/#reservation"
           class="inline-flex items-center justify-center gap-2 rounded-full bg-taxi-400 px-8 py-4 text-lg font-bold text-dark hover:bg-taxi-500 transition-colors"
         >
-          Jetzt reservieren
+          {t.hero.ctaReserve}
         </a>
         <a
           href={whatsappUrl}
@@ -46,12 +51,16 @@ const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeUR
       </div>
       <div class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-gray-400">
         <span class="flex items-center gap-2">
-          <UserCheck class="h-4 w-4 text-taxi-400" />
-          Ihre Fahrerin
+          <Plane class="h-4 w-4 text-taxi-400" />
+          {t.hero.featureAirport}
         </span>
         <span class="flex items-center gap-2">
-          <Shield class="h-4 w-4 text-taxi-400" />
-          Flughafentransfer
+          <Route class="h-4 w-4 text-taxi-400" />
+          {t.hero.featureLongDistance}
+        </span>
+        <span class="flex items-center gap-2">
+          <Briefcase class="h-4 w-4 text-taxi-400" />
+          {t.hero.featureBusiness}
         </span>
       </div>
     </div>

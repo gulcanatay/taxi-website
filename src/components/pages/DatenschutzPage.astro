@@ -1,0 +1,58 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../layout/Header.astro";
+import Footer from "../layout/Footer.astro";
+import { getTranslations, getAlternateUrls } from "../../i18n";
+import type { Locale } from "../../i18n";
+import { siteConfig } from "../../config/site";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale);
+const alternateUrls = getAlternateUrls("datenschutz");
+
+const responsiblePartyHtml = `
+<p>Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:</p>
+<p class="mt-2">
+  ${siteConfig.business.owner}<br />
+  ${siteConfig.name}<br />
+  ${siteConfig.address.street}<br />
+  ${siteConfig.address.zip} ${siteConfig.address.city}
+</p>
+<p class="mt-2">
+  ${t.form.phoneLabel}: ${siteConfig.phoneDisplay}<br />
+  ${t.form.emailLabel}: ${siteConfig.email}
+</p>`;
+---
+
+<Layout
+  title={`${t.datenschutz.metaTitle} | ${siteConfig.name}`}
+  description={t.datenschutz.metaDescription}
+  locale={locale}
+  t={t}
+  alternateUrls={alternateUrls}
+>
+  <Header locale={locale} t={t} alternateUrls={alternateUrls} />
+  <main class="pt-24 pb-20">
+    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl sm:text-4xl font-bold text-dark mb-8">{t.datenschutz.title}</h1>
+
+      <div class="space-y-8 text-gray-600 leading-relaxed">
+        {t.datenschutz.sections.map((section) => (
+          <section>
+            <h2 class="text-xl font-semibold text-dark mb-3">{section.title}</h2>
+            <Fragment set:html={
+              section.content === "RESPONSIBLE_PARTY"
+                ? responsiblePartyHtml
+                : section.content
+            } />
+          </section>
+        ))}
+      </div>
+    </div>
+  </main>
+  <Footer locale={locale} t={t} alternateUrls={alternateUrls} />
+</Layout>

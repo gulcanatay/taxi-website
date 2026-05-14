@@ -1,15 +1,22 @@
 ---
 import { siteConfig } from "../../config/site";
+import type { Translations } from "../../i18n/types";
 
-const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeURIComponent(siteConfig.whatsapp.message)}`;
+interface Props {
+  t: Translations;
+}
+
+const { t } = Astro.props;
+const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeURIComponent(t.whatsapp.message)}`;
 ---
 
 <a
   href={whatsappUrl}
   target="_blank"
   rel="noopener noreferrer"
-  aria-label="Chat auf WhatsApp"
-  class="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-lg hover:bg-green-600 transition-colors sm:h-16 sm:w-16"
+  aria-label={t.whatsapp.ariaLabel}
+  id="whatsapp-float"
+  class="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-lg hover:bg-green-600 transition-all duration-300 sm:h-16 sm:w-16 translate-y-20 opacity-0 animate-breathe"
 >
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -22,3 +29,23 @@ const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeUR
     ></path>
   </svg>
 </a>
+
+<script>
+  const floatBtn = document.getElementById("whatsapp-float");
+  const hero = document.getElementById("hero");
+
+  function toggleFloat() {
+    if (!hero || !floatBtn) return;
+    const heroBottom = hero.getBoundingClientRect().bottom;
+    if (heroBottom < 0) {
+      floatBtn.classList.remove("translate-y-20", "opacity-0");
+      floatBtn.classList.add("translate-y-0", "opacity-100");
+    } else {
+      floatBtn.classList.add("translate-y-20", "opacity-0");
+      floatBtn.classList.remove("translate-y-0", "opacity-100");
+    }
+  }
+
+  window.addEventListener("scroll", toggleFloat);
+  toggleFloat();
+</script>

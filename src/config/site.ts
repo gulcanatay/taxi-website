@@ -1,10 +1,8 @@
 export const siteConfig = {
   name: "Taxi Service",
   url: "https://taxi-service.de",
-  description:
-    "Ihr zuverlässiger Taxi-Service. Flughafentransfers, Stadtfahrten, Fernfahrten und Business-Transport. Jetzt anrufen!",
   phone: "+4917630576513",
-  phoneDisplay: "0176 30576513",
+  phoneDisplay: "+49 176 30576513",
   email: "info@taxi-service.de",
   address: {
     street: "Musterstraße 1",
@@ -17,7 +15,6 @@ export const siteConfig = {
   },
   whatsapp: {
     number: "4917630576513",
-    message: "Hallo, ich möchte gerne ein Taxi buchen.",
   },
   googleMaps: {
     embedUrl:
@@ -29,9 +26,4 @@ export const siteConfig = {
     taxId: "DE123456789",
     registrationAuthority: "Gewerbeamt München",
   },
-  nav: [
-{ label: "Leistungen", href: "/#leistungen" },
-    // { label: "Flughafentransfer", href: "/flughafen-transfer" },
-    { label: "Reservierung", href: "/#reservierung" },
-  ],
 } as const;

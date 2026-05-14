@@ -1,53 +1,44 @@
 ---
 import { UserCheck, ShieldCheck, Heart } from "@lucide/astro";
 import { siteConfig } from "../../config/site";
+import type { Translations } from "../../i18n/types";
 
-const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeURIComponent(siteConfig.whatsapp.message)}`;
+interface Props {
+  t: Translations;
+}
 
-const benefits = [
-  {
-    icon: UserCheck,
-    title: "Ihre Fahrerin",
-    description: "Als erfahrene Taxifahrerin kenne ich mich bestens in der Region aus und bringe Sie sicher ans Ziel.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Sicherheit & Vertrauen",
-    description: "Besonders für Frauen, Familien und Senioren biete ich ein sicheres und vertrauensvolles Fahrerlebnis.",
-  },
-  {
-    icon: Heart,
-    title: "Persönlich & Professionell",
-    description: "Bei mir fahren Sie nicht mit einem Unbekannten — ich bin Ihre persönliche Fahrerin mit Herz und Erfahrung.",
-  },
-];
+const { t } = Astro.props;
+const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeURIComponent(t.whatsapp.message)}`;
+const icons = [UserCheck, ShieldCheck, Heart];
 ---
 
-<section id="fahrerinnen" class="py-20 bg-gray-50">
+<section id="drivers" class="py-20 bg-gray-50">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-12">
       <p class="text-taxi-500 font-semibold text-sm uppercase tracking-wider mb-2">
-        Ihre Fahrerin
+        {t.femaleDrivers.tagline}
       </p>
       <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">
-        Frau am Steuer — sicher & vertrauensvoll
+        {t.femaleDrivers.title}
       </h2>
       <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
-        Als Ihre Fahrerin stehe ich persönlich für Sicherheit, Pünktlichkeit und
-        einen freundlichen Service. Bei mir sind Sie in besten Händen.
+        {t.femaleDrivers.description}
       </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-      {benefits.map((benefit) => (
-        <div class="rounded-2xl bg-white border border-gray-100 p-6 text-center">
-          <div class="inline-flex items-center justify-center rounded-xl bg-taxi-50 p-3 text-taxi-500 mb-4">
-            <benefit.icon class="h-6 w-6" />
+      {t.femaleDrivers.benefits.map((benefit, i) => {
+        const Icon = icons[i];
+        return (
+          <div class="rounded-2xl bg-white border border-gray-100 p-6 text-center">
+            <div class="inline-flex items-center justify-center rounded-xl bg-taxi-50 p-3 text-taxi-500 mb-4">
+              <Icon class="h-6 w-6" />
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">{benefit.title}</h3>
+            <p class="text-sm text-gray-600">{benefit.description}</p>
           </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">{benefit.title}</h3>
-          <p class="text-sm text-gray-600">{benefit.description}</p>
-        </div>
-      ))}
+        );
+      })}
     </div>
 
     <div class="text-center">
@@ -57,7 +48,7 @@ const benefits = [
         rel="noopener noreferrer"
         class="inline-flex items-center justify-center gap-2 rounded-full bg-taxi-400 px-8 py-4 text-lg font-bold text-gray-900 hover:bg-taxi-500 transition-colors"
       >
-        Jetzt Fahrt buchen
+        {t.femaleDrivers.cta}
       </a>
     </div>
   </div>
