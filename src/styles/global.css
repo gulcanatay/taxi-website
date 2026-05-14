@@ -4,6 +4,10 @@ section[id] {
   scroll-margin-top: 6rem;
 }
 
+html {
+  background-color: #231f20;
+}
+
 @theme {
   --font-sans: "Inter", sans-serif;
   --color-taxi-50: #fff9e6;
