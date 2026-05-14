@@ -32,12 +32,19 @@ const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeUR
 
 <script>
   const floatBtn = document.getElementById("whatsapp-float");
-  const hero = document.getElementById("hero");
+
+  function getHeroWhatsAppBtn() {
+    const hero = document.getElementById("hero");
+    if (!hero) return null;
+    return hero.querySelector('a[href*="wa.me"]');
+  }
 
   function toggleFloat() {
-    if (!hero || !floatBtn) return;
-    const heroBottom = hero.getBoundingClientRect().bottom;
-    if (heroBottom < 0) {
+    if (!floatBtn) return;
+    const heroWaBtn = getHeroWhatsAppBtn();
+    // Show floating button when the hero WhatsApp button is not visible
+    const shouldShow = !heroWaBtn || heroWaBtn.getBoundingClientRect().bottom < 0;
+    if (shouldShow) {
       floatBtn.classList.remove("translate-y-20", "opacity-0");
       floatBtn.classList.add("translate-y-0", "opacity-100");
     } else {
