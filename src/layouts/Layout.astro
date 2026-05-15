@@ -65,6 +65,12 @@ const otherLocales = (["de", "en", "fr"] as Locale[]).filter((l) => l !== locale
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
+    <!-- Google Maps Places API -->
+    <script
+      async
+      src={`https://maps.googleapis.com/maps/api/js?key=${import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places&loading=async`}
+    ></script>
+
     <title>{title}</title>
 
     <!-- Language detection & redirect on first visit -->

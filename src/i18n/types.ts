@@ -1,5 +1,6 @@
 export interface Translations {
   meta: {
+    title: string;
     description: string;
     ogLocale: string;
   };
@@ -78,6 +79,10 @@ export interface Translations {
     passengersField: string;
     flightField: string;
     messageField: string;
+    datePastError: string;
+    phoneInvalidError: string;
+    whatsappGreeting: string;
+    whatsappClosing: string;
   };
   payment: {
     title: string;

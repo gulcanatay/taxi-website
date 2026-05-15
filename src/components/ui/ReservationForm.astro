@@ -24,6 +24,10 @@ const fieldLabels = JSON.stringify({
   passengersField: t.form.passengersField,
   flightField: t.form.flightField,
   messageField: t.form.messageField,
+  datePastError: t.form.datePastError,
+  phoneInvalidError: t.form.phoneInvalidError,
+  whatsappGreeting: t.form.whatsappGreeting,
+  whatsappClosing: t.form.whatsappClosing,
 });
 
 const inputClass =
@@ -45,9 +49,11 @@ const inputClass =
           id={`${id}-from`}
           name="from"
           required
+          autocomplete="off"
           class={inputClass}
           placeholder={t.form.fromPlaceholder}
         />
+        <input type="hidden" id={`${id}-from-place-id`} name="from_place_id" />
       </div>
       <div>
         <label for={`${id}-to`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.toLabel}</label>
@@ -56,10 +62,12 @@ const inputClass =
           id={`${id}-to`}
           name="to"
           required
+          autocomplete="off"
           value={defaultTo}
           class={inputClass}
           placeholder={t.form.toPlaceholder}
         />
+        <input type="hidden" id={`${id}-to-place-id`} name="to_place_id" />
       </div>
       <div>
         <label for={`${id}-date`} class="block text-sm font-medium text-gray-700 mb-1">{t.form.dateLabel}</label>
@@ -89,7 +97,7 @@ const inputClass =
           required
           class={inputClass}
         >
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+          {[1, 2, 3, 4].map((n) => (
             <option value={n}>{n}</option>
           ))}
         </select>
@@ -134,6 +142,8 @@ const inputClass =
           id={`${id}-phone`}
           name="phone"
           required
+          inputmode="tel"
+          pattern="[\d\s\+\-\(\)]{7,20}"
           class={inputClass}
           placeholder={t.form.phonePlaceholder}
         />
@@ -173,11 +183,45 @@ const inputClass =
 
   <button
     type="submit"
-    class="w-full rounded-full bg-taxi-400 px-6 py-3.5 font-semibold text-dark hover:bg-taxi-500 transition-colors text-base"
+    class="w-full rounded-full bg-taxi-400 px-6 py-3.5 font-semibold text-dark hover:bg-taxi-500 transition-colors text-base cursor-pointer"
   >
     {t.form.submit}
   </button>
 </form>
+
+<style is:global>
+  .pac-container {
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    font-family: "Inter", sans-serif;
+    font-size: 0.875rem;
+    margin-top: 4px;
+    z-index: 9999;
+  }
+  .pac-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-top: 1px solid #f3f4f6;
+  }
+  .pac-item:first-child {
+    border-top: none;
+  }
+  .pac-item:hover,
+  .pac-item-selected {
+    background-color: #fef9c3;
+  }
+  .pac-icon {
+    display: none;
+  }
+  .pac-item-query {
+    font-size: 0.875rem;
+    color: #1f2937;
+  }
+  .pac-matched {
+    font-weight: 600;
+  }
+</style>
 
 <script define:vars={{ whatsappNumber, id, fieldLabels }}>
   const labels = JSON.parse(fieldLabels);
@@ -190,23 +234,101 @@ const inputClass =
     dateInput.setAttribute("min", today);
   }
 
+  // Phone validation — strip non-phone characters on input
+  const phoneInput = document.getElementById(`${id}-phone`);
+  if (phoneInput) {
+    phoneInput.addEventListener("input", (e) => {
+      const cleaned = e.target.value.replace(/[^\d\s\+\-\(\)]/g, "");
+      if (cleaned !== e.target.value) e.target.value = cleaned;
+      phoneInput.setCustomValidity("");
+    });
+    phoneInput.addEventListener("invalid", () => {
+      phoneInput.setCustomValidity(labels.phoneInvalidError);
+    });
+  }
+
+  // Google Places Autocomplete
+  function initAutocomplete() {
+    if (typeof google === "undefined" || !google.maps || !google.maps.places) {
+      setTimeout(initAutocomplete, 200);
+      return;
+    }
+
+    const munichBounds = new google.maps.LatLngBounds(
+      new google.maps.LatLng(47.9, 11.2),
+      new google.maps.LatLng(48.4, 12.0)
+    );
+
+    const options = {
+      bounds: munichBounds,
+      componentRestrictions: { country: "de" },
+      fields: ["formatted_address", "place_id"],
+      types: ["geocode", "establishment"],
+    };
+
+    const fromInput = document.getElementById(`${id}-from`);
+    const toInput = document.getElementById(`${id}-to`);
+
+    if (fromInput) {
+      const fromAc = new google.maps.places.Autocomplete(fromInput, options);
+      fromAc.addListener("place_changed", () => {
+        const place = fromAc.getPlace();
+        if (place.formatted_address) fromInput.value = place.formatted_address;
+        const hidden = document.getElementById(`${id}-from-place-id`);
+        if (hidden && place.place_id) hidden.value = place.place_id;
+      });
+    }
+
+    if (toInput) {
+      const toAc = new google.maps.places.Autocomplete(toInput, options);
+      toAc.addListener("place_changed", () => {
+        const place = toAc.getPlace();
+        if (place.formatted_address) toInput.value = place.formatted_address;
+        const hidden = document.getElementById(`${id}-to-place-id`);
+        if (hidden && place.place_id) hidden.value = place.place_id;
+      });
+    }
+  }
+
+  initAutocomplete();
+
   form?.addEventListener("submit", (e) => {
     e.preventDefault();
     const data = new FormData(form);
 
-    // Format date as DD.MM.YYYY
+    // Validate date is not in the past
     const rawDate = data.get("date");
+    if (rawDate) {
+      const today = new Date().toISOString().split("T")[0];
+      if (rawDate < today) {
+        const dateEl = document.getElementById(`${id}-date`);
+        if (dateEl) {
+          dateEl.setCustomValidity(labels.datePastError);
+          dateEl.reportValidity();
+          dateEl.addEventListener("input", () => dateEl.setCustomValidity(""), { once: true });
+        }
+        return;
+      }
+    }
+
+    // Format date as DD.MM.YYYY
     let formattedDate = rawDate;
     if (rawDate) {
       const [y, m, d] = rawDate.split("-");
       formattedDate = `${d}.${m}.${y}`;
     }
 
+    const fromPlaceId = data.get("from_place_id");
+    const toPlaceId = data.get("to_place_id");
+    const fromLink = fromPlaceId ? `https://www.google.com/maps/place/?q=place_id:${fromPlaceId}` : "";
+    const toLink = toPlaceId ? `https://www.google.com/maps/place/?q=place_id:${toPlaceId}` : "";
+
     const lines = [
-      labels.whatsappPrefix,
+      labels.whatsappGreeting,
+      "",
       `${labels.nameField}: ${data.get("name")}`,
-      `${labels.fromField}: ${data.get("from")}`,
-      `${labels.toField}: ${data.get("to")}`,
+      `${labels.fromField}: ${data.get("from")}${fromLink ? `\n📍 ${fromLink}` : ""}`,
+      `${labels.toField}: ${data.get("to")}${toLink ? `\n📍 ${toLink}` : ""}`,
       `${labels.dateField}: ${formattedDate}`,
       `${labels.timeField}: ${data.get("time")}`,
       `${labels.passengersField}: ${data.get("passengers")}`,
@@ -221,6 +343,8 @@ const inputClass =
 
     const message = data.get("message");
     if (message) lines.push(`${labels.messageField}: ${message}`);
+
+    lines.push("", labels.whatsappClosing);
 
     window.open(
       `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`,

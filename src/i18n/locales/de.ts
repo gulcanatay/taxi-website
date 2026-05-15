@@ -2,6 +2,7 @@ import type { Translations } from "../types";
 
 export const de: Translations = {
   meta: {
+    title: "Taxi Service München – Flughafentransfer & Fahrservice",
     description:
       "Ihr zuverlässiger Taxi-Service. Flughafentransfers, Stadtfahrten, Fernfahrten und Business-Transport. Jetzt anrufen!",
     ogLocale: "de_DE",
@@ -112,6 +113,10 @@ export const de: Translations = {
     passengersField: "Fahrgäste",
     flightField: "Flugnummer",
     messageField: "Nachricht",
+    datePastError: "Datum darf nicht in der Vergangenheit liegen",
+    phoneInvalidError: "Bitte geben Sie eine gültige Telefonnummer ein",
+    whatsappGreeting: "Hallo, ich möchte gerne eine Fahrt reservieren. Hier sind meine Details:",
+    whatsappClosing: "Könnten Sie bitte die Verfügbarkeit bestätigen? Vielen Dank!",
   },
   payment: {
     title: "Akzeptierte Zahlungsarten",

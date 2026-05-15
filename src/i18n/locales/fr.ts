@@ -2,6 +2,7 @@ import type { Translations } from "../types";
 
 export const fr: Translations = {
   meta: {
+    title: "Service de Taxi Munich – Transfert Aéroport",
     description:
       "Votre service de taxi fiable. Transferts aéroport, trajets en ville, longue distance et transport professionnel. Appelez maintenant !",
     ogLocale: "fr_FR",
@@ -112,6 +113,10 @@ export const fr: Translations = {
     passengersField: "Passagers",
     flightField: "N° de vol",
     messageField: "Message",
+    datePastError: "La date ne peut pas être dans le passé",
+    phoneInvalidError: "Veuillez entrer un numéro de téléphone valide",
+    whatsappGreeting: "Bonjour, je souhaite réserver une course. Voici mes détails :",
+    whatsappClosing: "Pourriez-vous confirmer la disponibilité ? Merci !",
   },
   payment: {
     title: "Modes de paiement acceptés",

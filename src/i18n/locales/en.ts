@@ -2,8 +2,9 @@ import type { Translations } from "../types";
 
 export const en: Translations = {
   meta: {
+    title: "Munich Airport Taxi & Transfer Service",
     description:
-      "Your reliable taxi service. Airport transfers, city rides, long-distance and business transport. Call now!",
+      "Safe Airport Transfers in Munich. Reliable rides with a female driver.",
     ogLocale: "en_US",
   },
   nav: [
@@ -112,6 +113,10 @@ export const en: Translations = {
     passengersField: "Passengers",
     flightField: "Flight No.",
     messageField: "Message",
+    datePastError: "Date cannot be in the past",
+    phoneInvalidError: "Please enter a valid phone number",
+    whatsappGreeting: "Hello, I would like to reserve a ride. Here are my details:",
+    whatsappClosing: "Could you please confirm the availability? Thank you!",
   },
   payment: {
     title: "Accepted Payment Methods",
