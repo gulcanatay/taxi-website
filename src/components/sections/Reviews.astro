@@ -60,7 +60,7 @@ const { overallRating, totalReviews, googleMapsUrl, reviews } = reviewsConfig;
       <div class="relative">
         <div
           id="reviews-carousel"
-          class="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 px-10 sm:px-12 -mx-10 sm:-mx-12"
+          class="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 -mx-2 px-2"
           style="scrollbar-width: none; -ms-overflow-style: none;"
         >
           {reviews.map((review) => (
@@ -119,7 +119,7 @@ const { overallRating, totalReviews, googleMapsUrl, reviews } = reviewsConfig;
         <!-- Navigation arrows -->
         <button
           id="reviews-prev"
-          class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1 sm:-translate-x-3 flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-white border border-gray-200 shadow-md hover:bg-gray-50 transition-all disabled:opacity-30 disabled:cursor-default disabled:hover:bg-white"
+          class="absolute -left-5 top-1/2 -translate-y-1/2 flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-white border border-gray-200 shadow-md hover:bg-gray-50 transition-all disabled:opacity-30 disabled:cursor-default disabled:hover:bg-white"
           aria-label="Previous reviews"
           disabled
         >
@@ -127,7 +127,7 @@ const { overallRating, totalReviews, googleMapsUrl, reviews } = reviewsConfig;
         </button>
         <button
           id="reviews-next"
-          class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1 sm:translate-x-3 flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-white border border-gray-200 shadow-md hover:bg-gray-50 transition-all disabled:opacity-30 disabled:cursor-default disabled:hover:bg-white"
+          class="absolute -right-5 top-1/2 -translate-y-1/2 flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-white border border-gray-200 shadow-md hover:bg-gray-50 transition-all disabled:opacity-30 disabled:cursor-default disabled:hover:bg-white"
           aria-label="Next reviews"
         >
           <ChevronRight class="h-5 w-5 text-gray-600" />
