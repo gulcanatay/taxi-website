@@ -126,6 +126,10 @@ export const fr: Translations = {
     card: "Carte bancaire",
     contactless: "Sans contact (Apple Pay / Google Pay)",
   },
+  reviews: {
+    title: "Ce que disent nos clients",
+    reviewUs: "Évaluez-nous sur Google",
+  },
   about: {
     tagline: "À propos",
     title: "Votre partenaire mobilité",

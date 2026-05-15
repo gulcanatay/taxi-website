@@ -126,6 +126,10 @@ export const en: Translations = {
     card: "Debit / Credit Card",
     contactless: "Contactless (Apple Pay / Google Pay)",
   },
+  reviews: {
+    title: "What Our Customers Say",
+    reviewUs: "Review us on Google",
+  },
   about: {
     tagline: "About us",
     title: "Your Partner for Mobility",

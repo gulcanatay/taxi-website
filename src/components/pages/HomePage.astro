@@ -5,6 +5,7 @@ import Footer from "../layout/Footer.astro";
 import Hero from "../sections/Hero.astro";
 import Services from "../sections/Services.astro";
 import Contact from "../sections/Contact.astro";
+import Reviews from "../sections/Reviews.astro";
 import { getTranslations, getAlternateUrls } from "../../i18n";
 import type { Locale } from "../../i18n";
 import { siteConfig } from "../../config/site";
@@ -29,6 +30,7 @@ const alternateUrls = getAlternateUrls("home");
   <main>
     <Hero t={t} />
     <Services t={t} />
+    <Reviews t={t} />
     <Contact t={t} />
   </main>
   <Footer locale={locale} t={t} alternateUrls={alternateUrls} />

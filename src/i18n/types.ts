@@ -92,6 +92,10 @@ export interface Translations {
     card: string;
     contactless: string;
   };
+  reviews: {
+    title: string;
+    reviewUs: string;
+  };
   about: {
     tagline: string;
     title: string;
