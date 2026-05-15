@@ -92,7 +92,7 @@ export const de: Translations = {
     dateLabel: "Datum",
     timeLabel: "Uhrzeit",
     phoneLabel: "Telefonnummer",
-    phonePlaceholder: "z.B. 0170 1234567",
+    phonePlaceholder: "z.B. 170 1234567",
     emailLabel: "E-Mail-Adresse (optional)",
     emailPlaceholder: "ihre@email.de",
     passengersLabel: "Anzahl der Fahrgäste",

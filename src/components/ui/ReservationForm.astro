@@ -34,7 +34,7 @@ const inputClass =
   "w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-taxi-400 focus:border-transparent";
 ---
 
-<form id={id} class="rounded-2xl bg-white border border-gray-100 p-6 sm:p-8 space-y-8">
+<form id={id} class="rounded-2xl bg-white border border-gray-100 p-6 sm:p-8 space-y-8" data-whatsapp-number={whatsappNumber} data-field-labels={fieldLabels}>
   <!-- Ride Details -->
   <fieldset>
     <legend class="text-lg font-semibold text-dark mb-4 flex items-center gap-2">
@@ -156,7 +156,6 @@ const inputClass =
           name="phone"
           required
           inputmode="tel"
-          pattern="[\d\s\+\-\(\)]{7,20}"
           class={inputClass}
           placeholder={t.form.phonePlaceholder}
         />
@@ -234,152 +233,197 @@ const inputClass =
   .pac-matched {
     font-weight: 600;
   }
+
+  /* intl-tel-input overrides */
+  .iti {
+    width: 100%;
+  }
+  .iti .iti__search-input {
+    font-size: 0.875rem;
+  }
+  .iti .iti__dropdown-content {
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    z-index: 10000;
+  }
+  .iti .iti__country-container {
+    border-radius: 0.5rem 0 0 0.5rem;
+  }
 </style>
 
-<script define:vars={{ whatsappNumber, id, fieldLabels }}>
-  const labels = JSON.parse(fieldLabels);
-  const form = document.getElementById(id);
+<script>
+  import intlTelInput from "intl-tel-input";
+  import "intl-tel-input/styles";
 
-  // Set min date to today
-  const dateInput = document.getElementById(`${id}-date`);
-  if (dateInput) {
-    const today = new Date().toISOString().split("T")[0];
-    dateInput.setAttribute("min", today);
-  }
+  document.querySelectorAll<HTMLFormElement>("form[data-whatsapp-number]").forEach((form) => {
+    const id = form.id;
+    const whatsappNumber = form.dataset.whatsappNumber;
+    const labels = JSON.parse(form.dataset.fieldLabels || "{}");
 
-  // Phone validation — strip non-phone characters on input
-  const phoneInput = document.getElementById(`${id}-phone`);
-  if (phoneInput) {
-    phoneInput.addEventListener("input", (e) => {
-      const cleaned = e.target.value.replace(/[^\d\s\+\-\(\)]/g, "");
-      if (cleaned !== e.target.value) e.target.value = cleaned;
-      phoneInput.setCustomValidity("");
-    });
-    phoneInput.addEventListener("invalid", () => {
-      phoneInput.setCustomValidity(labels.phoneInvalidError);
-    });
-  }
-
-  // Google Places Autocomplete
-  function initAutocomplete() {
-    if (typeof google === "undefined" || !google.maps || !google.maps.places) {
-      setTimeout(initAutocomplete, 200);
-      return;
-    }
-
-    const munichBounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(47.9, 11.2),
-      new google.maps.LatLng(48.4, 12.0)
-    );
-
-    const options = {
-      bounds: munichBounds,
-      componentRestrictions: { country: "de" },
-      fields: ["formatted_address", "place_id"],
-      types: ["geocode", "establishment"],
-    };
-
-    const fromInput = document.getElementById(`${id}-from`);
-    const toInput = document.getElementById(`${id}-to`);
-
-    if (fromInput) {
-      const fromAc = new google.maps.places.Autocomplete(fromInput, options);
-      fromAc.addListener("place_changed", () => {
-        const place = fromAc.getPlace();
-        if (place.formatted_address) fromInput.value = place.formatted_address;
-        const hidden = document.getElementById(`${id}-from-place-id`);
-        if (hidden && place.place_id) hidden.value = place.place_id;
-      });
-    }
-
-    if (toInput) {
-      const toAc = new google.maps.places.Autocomplete(toInput, options);
-      toAc.addListener("place_changed", () => {
-        const place = toAc.getPlace();
-        if (place.formatted_address) toInput.value = place.formatted_address;
-        const hidden = document.getElementById(`${id}-to-place-id`);
-        if (hidden && place.place_id) hidden.value = place.place_id;
-      });
-    }
-  }
-
-  initAutocomplete();
-
-  form?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const data = new FormData(form);
-
-    // Validate date is not in the past
-    const rawDate = data.get("date");
-    if (rawDate) {
+    // Set min date to today
+    const dateInput = document.getElementById(`${id}-date`) as HTMLInputElement | null;
+    if (dateInput) {
       const today = new Date().toISOString().split("T")[0];
-      if (rawDate < today) {
-        const dateEl = document.getElementById(`${id}-date`);
-        if (dateEl) {
-          dateEl.setCustomValidity(labels.datePastError);
-          dateEl.reportValidity();
-          dateEl.addEventListener("input", () => dateEl.setCustomValidity(""), { once: true });
-        }
+      dateInput.setAttribute("min", today);
+    }
+
+    // Initialize intl-tel-input on the phone input
+    const phoneInput = document.getElementById(`${id}-phone`) as HTMLInputElement | null;
+    let iti: ReturnType<typeof intlTelInput> | null = null;
+    if (phoneInput) {
+      iti = intlTelInput(phoneInput, {
+        initialCountry: "de",
+        countryOrder: ["de", "at", "ch", "tr"],
+        separateDialCode: true,
+        countrySearch: true,
+        loadUtilsOnInit: () => import("intl-tel-input/utils"),
+      });
+
+      phoneInput.addEventListener("input", () => {
+        phoneInput.setCustomValidity("");
+      });
+      phoneInput.addEventListener("invalid", () => {
+        phoneInput.setCustomValidity(labels.phoneInvalidError);
+      });
+    }
+
+    // Google Places Autocomplete
+    function initAutocomplete() {
+      if (typeof google === "undefined" || !google.maps || !google.maps.places) {
+        setTimeout(initAutocomplete, 200);
         return;
+      }
+
+      const munichBounds = new google.maps.LatLngBounds(
+        new google.maps.LatLng(47.9, 11.2),
+        new google.maps.LatLng(48.4, 12.0)
+      );
+
+      const options = {
+        bounds: munichBounds,
+        componentRestrictions: { country: "de" },
+        fields: ["formatted_address", "place_id"],
+        types: ["geocode", "establishment"],
+      };
+
+      const fromInput = document.getElementById(`${id}-from`) as HTMLInputElement | null;
+      const toInput = document.getElementById(`${id}-to`) as HTMLInputElement | null;
+
+      if (fromInput) {
+        const fromAc = new google.maps.places.Autocomplete(fromInput, options);
+        fromAc.addListener("place_changed", () => {
+          const place = fromAc.getPlace();
+          if (place.formatted_address) fromInput.value = place.formatted_address;
+          const hidden = document.getElementById(`${id}-from-place-id`) as HTMLInputElement | null;
+          if (hidden && place.place_id) hidden.value = place.place_id;
+        });
+      }
+
+      if (toInput) {
+        const toAc = new google.maps.places.Autocomplete(toInput, options);
+        toAc.addListener("place_changed", () => {
+          const place = toAc.getPlace();
+          if (place.formatted_address) toInput.value = place.formatted_address;
+          const hidden = document.getElementById(`${id}-to-place-id`) as HTMLInputElement | null;
+          if (hidden && place.place_id) hidden.value = place.place_id;
+        });
       }
     }
 
-    // Format date as DD.MM.YYYY
-    let formattedDate = rawDate;
-    if (rawDate) {
-      const [y, m, d] = rawDate.split("-");
-      formattedDate = `${d}.${m}.${y}`;
-    }
+    initAutocomplete();
 
-    const fromPlaceId = data.get("from_place_id");
-    const toPlaceId = data.get("to_place_id");
-    const fromLink = fromPlaceId ? `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${fromPlaceId}` : "";
-    const toLink = toPlaceId ? `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${toPlaceId}` : "";
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    const lines = [
-      labels.whatsappGreeting,
-      "",
-      `📍 ${labels.fromField}:`,
-      data.get("from"),
-    ];
-    if (fromLink) lines.push(fromLink);
+      // Validate phone using intl-tel-input
+      if (iti) {
+        await iti.promise;
+        if (!iti.isValidNumber()) {
+          phoneInput!.setCustomValidity(labels.phoneInvalidError);
+          phoneInput!.reportValidity();
+          phoneInput!.addEventListener("input", () => phoneInput!.setCustomValidity(""), { once: true });
+          return;
+        }
+      }
 
-    lines.push(
-      "",
-      `📍 ${labels.toField}:`,
-      data.get("to"),
-    );
-    if (toLink) lines.push(toLink);
+      const data = new FormData(form);
 
-    lines.push(
-      "",
-      `📅 ${labels.dateField}: ${formattedDate}`,
-      `⏰ ${labels.timeField}: ${data.get("time")}`,
-      "",
-      `👤 ${labels.passengersField}: ${data.get("passengers")}`,
-      `🧳 ${labels.luggageField}: ${data.get("luggage")}`,
-    );
+      // Validate date is not in the past
+      const rawDate = data.get("date") as string | null;
+      if (rawDate) {
+        const today = new Date().toISOString().split("T")[0];
+        if (rawDate < today) {
+          const dateEl = document.getElementById(`${id}-date`) as HTMLInputElement | null;
+          if (dateEl) {
+            dateEl.setCustomValidity(labels.datePastError);
+            dateEl.reportValidity();
+            dateEl.addEventListener("input", () => dateEl.setCustomValidity(""), { once: true });
+          }
+          return;
+        }
+      }
 
-    const flight = data.get("flight");
-    if (flight) lines.push("", `✈️ ${labels.flightField}: ${flight}`);
+      // Format date as DD.MM.YYYY
+      let formattedDate = rawDate;
+      if (rawDate) {
+        const [y, m, d] = rawDate.split("-");
+        formattedDate = `${d}.${m}.${y}`;
+      }
 
-    lines.push(
-      "",
-      `👤 ${labels.nameField}: ${data.get("name")}`,
-      `📞 ${labels.phoneField}: ${data.get("phone")}`,
-    );
+      // Get full international phone number
+      const fullPhoneNumber = iti ? iti.getNumber() : data.get("phone");
 
-    const email = data.get("email");
-    if (email) lines.push(`📧 ${labels.emailField}: ${email}`);
+      const fromPlaceId = data.get("from_place_id");
+      const toPlaceId = data.get("to_place_id");
+      const fromLink = fromPlaceId ? `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${fromPlaceId}` : "";
+      const toLink = toPlaceId ? `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${toPlaceId}` : "";
 
-    const message = data.get("message");
-    if (message) lines.push("", `💬 ${labels.messageField}: ${message}`);
+      const lines: string[] = [
+        labels.whatsappGreeting,
+        "",
+        `📍 ${labels.fromField}:`,
+        data.get("from") as string,
+      ];
+      if (fromLink) lines.push(fromLink);
 
-    lines.push("", labels.whatsappClosing);
+      lines.push(
+        "",
+        `📍 ${labels.toField}:`,
+        data.get("to") as string,
+      );
+      if (toLink) lines.push(toLink);
 
-    window.open(
-      `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`,
-      "_blank"
-    );
+      lines.push(
+        "",
+        `📅 ${labels.dateField}: ${formattedDate}`,
+        `⏰ ${labels.timeField}: ${data.get("time")}`,
+        "",
+        `👤 ${labels.passengersField}: ${data.get("passengers")}`,
+        `🧳 ${labels.luggageField}: ${data.get("luggage")}`,
+      );
+
+      const flight = data.get("flight");
+      if (flight) lines.push("", `✈️ ${labels.flightField}: ${flight}`);
+
+      lines.push(
+        "",
+        `👤 ${labels.nameField}: ${data.get("name")}`,
+        `📞 ${labels.phoneField}: ${fullPhoneNumber}`,
+      );
+
+      const email = data.get("email");
+      if (email) lines.push(`📧 ${labels.emailField}: ${email}`);
+
+      const message = data.get("message");
+      if (message) lines.push("", `💬 ${labels.messageField}: ${message}`);
+
+      lines.push("", labels.whatsappClosing);
+
+      window.open(
+        `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`,
+        "_blank"
+      );
+    });
   });
 </script>
