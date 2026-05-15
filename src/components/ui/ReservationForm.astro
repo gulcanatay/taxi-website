@@ -333,8 +333,8 @@ const inputClass =
 
     const fromPlaceId = data.get("from_place_id");
     const toPlaceId = data.get("to_place_id");
-    const fromLink = fromPlaceId ? `https://www.google.com/maps/place/?q=place_id:${fromPlaceId}` : "";
-    const toLink = toPlaceId ? `https://www.google.com/maps/place/?q=place_id:${toPlaceId}` : "";
+    const fromLink = fromPlaceId ? `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${fromPlaceId}` : "";
+    const toLink = toPlaceId ? `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${toPlaceId}` : "";
 
     const lines = [
       labels.whatsappGreeting,
