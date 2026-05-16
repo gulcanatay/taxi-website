@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "Taxi Service",
-  url: "https://taxi-service.de",
+  url: "https://www.airporttransfer-muc.de",
   phone: "+4917630576513",
   phoneDisplay: "+49 176 30576513",
   email: "info@airporttransfer-muc.de",

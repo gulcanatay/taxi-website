@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://taxi-service.de',
+  site: 'https://www.airporttransfer-muc.de',
   i18n: {
     defaultLocale: 'de',
     locales: ['de', 'en', 'fr'],
