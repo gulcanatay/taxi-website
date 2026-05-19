@@ -177,6 +177,13 @@ export interface Translations {
     ariaLabel: string;
     message: string;
   };
+  cookieConsent: {
+    bannerText: string;
+    acceptButton: string;
+    rejectButton: string;
+    privacyLink: string;
+    settingsButton: string;
+  };
   routes: {
     home: string;
     impressum: string;

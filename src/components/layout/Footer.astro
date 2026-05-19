@@ -24,6 +24,7 @@ const { locale, t, alternateUrls } = Astro.props;
 
       <a
         href={`tel:${siteConfig.phone}`}
+        data-track="phone"
         class="inline-flex items-center gap-2 rounded-full bg-taxi-400 px-6 py-3 text-base font-bold text-dark hover:bg-taxi-500 transition-colors"
       >
         <Phone class="h-5 w-5" />

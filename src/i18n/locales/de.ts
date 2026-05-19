@@ -370,9 +370,12 @@ export const de: Translations = {
 <p class="mt-2">Wenn Sie der Ansicht sind, dass die Verarbeitung Ihrer Daten gegen das Datenschutzrecht verstößt, haben Sie das Recht, sich bei einer Aufsichtsbehörde zu beschweren.</p>`,
       },
       {
-        title: "6. Cookies",
-        content:
-          "<p>Diese Website verwendet keine Cookies und setzt keine Tracking-Technologien ein.</p>",
+        title: "6. Cookies & Tracking",
+        content: `<p>Diese Website verwendet Google Tag Manager (GTM) und Google Ads Conversion Tracking, um die Wirksamkeit unserer Werbemaßnahmen zu messen. Dabei werden Cookies gesetzt, die es Google ermöglichen, Conversions (z.\u00A0B. Anrufe, WhatsApp-Kontaktaufnahmen, Reservierungen) zu erfassen.</p>
+<p class="mt-2">Diese Technologien werden nur mit Ihrer ausdrücklichen Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO aktiviert. Beim ersten Besuch der Website werden Sie über ein Banner um Ihre Einwilligung gebeten. Ohne Ihre Zustimmung werden keine Tracking-Cookies gesetzt und keine Daten an Google übermittelt.</p>
+<p class="mt-2">Anbieter: Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Daten können in die USA übertragen werden. Mehr Informationen: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-taxi-600 hover:text-taxi-700">https://policies.google.com/privacy</a></p>
+<p class="mt-2"><strong>Einwilligung widerrufen:</strong> Sie können Ihre Cookie-Einstellungen jederzeit ändern, indem Sie den folgenden Button klicken:</p>
+<p class="mt-2"><button id="reset-cookie-consent" class="inline-flex items-center gap-2 rounded-lg bg-taxi-400 px-4 py-2 text-sm font-semibold text-dark hover:bg-taxi-500 transition-colors cursor-pointer">Cookie-Einstellungen zurücksetzen</button></p>`,
       },
     ],
   },
@@ -380,6 +383,14 @@ export const de: Translations = {
     ariaLabel: "Chat auf WhatsApp",
     message:
       "Hallo, ich möchte eine Fahrt reservieren. Können Sie mir bitte weiterhelfen?",
+  },
+  cookieConsent: {
+    bannerText:
+      "Wir verwenden Google Ads Cookies, um die Wirksamkeit unserer Werbung zu messen. Keine persönlichen Daten werden ohne Ihre Zustimmung weitergegeben.",
+    acceptButton: "Akzeptieren",
+    rejectButton: "Ablehnen",
+    privacyLink: "Mehr erfahren",
+    settingsButton: "Cookie-Einstellungen zurücksetzen",
   },
   routes: {
     home: "",

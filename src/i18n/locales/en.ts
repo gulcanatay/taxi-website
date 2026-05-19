@@ -369,9 +369,12 @@ export const en: Translations = {
 <p class="mt-2">If you believe that the processing of your data violates data protection law, you have the right to lodge a complaint with a supervisory authority.</p>`,
       },
       {
-        title: "6. Cookies",
-        content:
-          "<p>This website does not use cookies and does not employ any tracking technologies.</p>",
+        title: "6. Cookies & Tracking",
+        content: `<p>This website uses Google Tag Manager (GTM) and Google Ads Conversion Tracking to measure the effectiveness of our advertising. Cookies are set that allow Google to track conversions (e.g. calls, WhatsApp contacts, reservations).</p>
+<p class="mt-2">These technologies are only activated with your explicit consent in accordance with Art. 6 para. 1 lit. a GDPR. When you first visit the website, you will be asked for your consent via a banner. Without your consent, no tracking cookies are set and no data is transmitted to Google.</p>
+<p class="mt-2">Provider: Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland. Data may be transferred to the USA. More information: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-taxi-600 hover:text-taxi-700">https://policies.google.com/privacy</a></p>
+<p class="mt-2"><strong>Revoke consent:</strong> You can change your cookie settings at any time by clicking the button below:</p>
+<p class="mt-2"><button id="reset-cookie-consent" class="inline-flex items-center gap-2 rounded-lg bg-taxi-400 px-4 py-2 text-sm font-semibold text-dark hover:bg-taxi-500 transition-colors cursor-pointer">Reset Cookie Settings</button></p>`,
       },
     ],
   },
@@ -379,6 +382,14 @@ export const en: Translations = {
     ariaLabel: "Chat on WhatsApp",
     message:
       "Hello, I would like to book a ride. Can you help me?",
+  },
+  cookieConsent: {
+    bannerText:
+      "We use Google Ads cookies to measure the effectiveness of our advertising. No personal data is shared without your consent.",
+    acceptButton: "Accept",
+    rejectButton: "Decline",
+    privacyLink: "Learn more",
+    settingsButton: "Reset Cookie Settings",
   },
   routes: {
     home: "",

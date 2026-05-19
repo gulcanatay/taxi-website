@@ -422,6 +422,9 @@ const inputClass =
 
       lines.push("", labels.whatsappClosing);
 
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: "reservation_submit" });
+
       window.open(
         `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`,
         "_blank"

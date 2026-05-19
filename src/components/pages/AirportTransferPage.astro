@@ -50,6 +50,7 @@ const stepIcons = [CalendarCheck, Car, ShieldCheck];
           <div class="mt-8 flex flex-col sm:flex-row gap-4">
             <a
               href={`tel:${siteConfig.phone}`}
+              data-track="phone"
               class="inline-flex items-center justify-center gap-2 rounded-full bg-taxi-400 px-8 py-4 text-lg font-bold text-dark hover:bg-taxi-500 transition-colors"
             >
               <Phone class="h-5 w-5" />
@@ -59,6 +60,7 @@ const stepIcons = [CalendarCheck, Car, ShieldCheck];
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
+              data-track="whatsapp"
               class="inline-flex items-center justify-center gap-2 rounded-full bg-green-500 px-8 py-4 text-lg font-bold text-white hover:bg-green-600 transition-colors"
             >
               <MessageCircle class="h-5 w-5" />
