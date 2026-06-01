@@ -28,7 +28,6 @@ export interface Translations {
     ctaReserve: string;
     ctaReserveSubtitle: string;
     ctaCall: string;
-    ctaCallSubtitle: string;
     featureAirport: string;
     featureLongDistance: string;
     featureBusiness: string;

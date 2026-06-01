@@ -35,7 +35,6 @@ export const fr: Translations = {
     ctaReserve: "Réserver maintenant",
     ctaReserveSubtitle: "Réservation en ligne facile",
     ctaCall: "Appeler maintenant",
-    ctaCallSubtitle: "Votre taxi en quelques secondes",
     featureAirport: "Transferts aéroport",
     featureLongDistance: "Trajets longue distance",
     featureBusiness: "Transport professionnel",
