@@ -26,6 +26,9 @@ export interface Translations {
     mobileSubtitle: string;
     description: string;
     ctaReserve: string;
+    ctaReserveSubtitle: string;
+    ctaCall: string;
+    ctaCallSubtitle: string;
     featureAirport: string;
     featureLongDistance: string;
     featureBusiness: string;

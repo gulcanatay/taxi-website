@@ -33,6 +33,9 @@ export const fr: Translations = {
     description:
       '<span class="bg-taxi-400 text-dark px-1 rounded">Transfert aéroport</span>, <span class="bg-taxi-400 text-dark px-1 rounded">trajet longue distance</span> ou <span class="bg-taxi-400 text-dark px-1 rounded">transport professionnel</span> — votre conductrice expérimentée vous emmène en toute sécurité et confort à destination.',
     ctaReserve: "Réserver maintenant",
+    ctaReserveSubtitle: "Réservation en ligne facile",
+    ctaCall: "Appeler maintenant",
+    ctaCallSubtitle: "Votre taxi en quelques secondes",
     featureAirport: "Transferts aéroport",
     featureLongDistance: "Trajets longue distance",
     featureBusiness: "Transport professionnel",
