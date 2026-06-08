@@ -1,6 +1,6 @@
 export const trackingConfig = {
   // Google Tag Manager Container ID — replace with real ID from agency
-  gtmId: "GTM-T5S4W3FN",
+  gtmId: "GTM-PXJDJ447",
 
   // Google Ads Conversion ID
   adsConversionId: "AW-952399794",
