@@ -35,9 +35,9 @@ export const de: Translations = {
     ctaReserve: "Jetzt reservieren",
     ctaReserveSubtitle: "Bequem online buchen",
     ctaCall: "Jetzt anrufen",
-    featureAirport: "Flughafentransfers",
-    featureLongDistance: "Langstreckenfahrten",
-    featureBusiness: "Business Transfer",
+    featureAirport: "München & Flughafen: Abrechnung nach Taxameter",
+    featureLongDistance: "Langstrecken: Individuelles Preisangebot auf Anfrage",
+    featureBusiness: "Keine versteckten Kosten",
     paymentFeatures: [
       "Bargeldlos bezahlen – ganz entspannt.",
       "Kontaktlose Zahlung möglich.",

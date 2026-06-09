@@ -35,9 +35,9 @@ export const fr: Translations = {
     ctaReserve: "Réserver maintenant",
     ctaReserveSubtitle: "Réservation en ligne facile",
     ctaCall: "Appeler maintenant",
-    featureAirport: "Transferts aéroport",
-    featureLongDistance: "Trajets longue distance",
-    featureBusiness: "Transport professionnel",
+    featureAirport: "Munich & aéroport : tarif au compteur",
+    featureLongDistance: "Longue distance : devis personnalisé sur demande",
+    featureBusiness: "Aucun frais caché",
     paymentFeatures: [
       "Paiement sans espèces – en toute sérénité.",
       "Paiement sans contact disponible.",

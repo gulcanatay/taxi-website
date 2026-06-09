@@ -35,9 +35,9 @@ export const en: Translations = {
     ctaReserve: "Book now",
     ctaReserveSubtitle: "Easy online booking",
     ctaCall: "Call now",
-    featureAirport: "Airport transfers",
-    featureLongDistance: "Long-distance rides",
-    featureBusiness: "Business transfer",
+    featureAirport: "Munich & airport: Metered fare",
+    featureLongDistance: "Long-distance: Custom quote on request",
+    featureBusiness: "No hidden costs",
     paymentFeatures: [
       "Cashless payment – completely relaxed.",
       "Contactless payment available.",
