@@ -8,7 +8,7 @@ export interface Review {
 
 export const reviewsConfig = {
   overallRating: 5.0,
-  totalReviews: 16,
+  totalReviews: 22,
   googleMapsUrl: "https://maps.app.goo.gl/nJ6FXxLMEpyBowf79",
   reviews: [
     {
