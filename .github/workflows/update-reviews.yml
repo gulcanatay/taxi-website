@@ -1,0 +1,33 @@
+name: Refresh reviews (rebuild)
+
+# Pings the Vercel Deploy Hook once a day. The Vercel build runs
+# scripts/fetch-reviews.mjs (via the "build" script), so each rebuild bakes in
+# the latest Google reviews. No git commits are made, so this works regardless
+# of fork/upstream topology.
+#
+# Setup: add a repo secret VERCEL_DEPLOY_HOOK_URL containing the Deploy Hook URL
+# from the Vercel project (Settings → Git → Deploy Hooks). If the secret is not
+# set, the job simply skips — safe to leave present in a fork without the secret.
+
+on:
+  schedule:
+    - cron: "17 4 * * *" # daily at 04:17 UTC
+  workflow_dispatch: {} # allow manual runs from the Actions tab
+
+concurrency:
+  group: refresh-reviews
+  cancel-in-progress: false
+
+jobs:
+  trigger-rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Vercel Deploy Hook
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "VERCEL_DEPLOY_HOOK_URL not set — skipping."
+            exit 0
+          fi
+          curl -fsS -X POST "$HOOK" -o /dev/null -w "Triggered rebuild (HTTP %{http_code})\n"

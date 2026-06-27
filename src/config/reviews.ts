@@ -1,3 +1,5 @@
+import generated from "./reviews.generated.json";
+
 export interface Review {
   name: string;
   initial: string;
@@ -6,11 +8,10 @@ export interface Review {
   text: string;
 }
 
-export const reviewsConfig = {
-  overallRating: 5.0,
-  totalReviews: 22,
-  googleMapsUrl: "https://maps.app.goo.gl/nJ6FXxLMEpyBowf79",
-  reviews: [
+// Manual fallback. Used only if reviews.generated.json has no data — e.g. a
+// build where the Places API key is missing or the fetch failed. The generated
+// file is refreshed by scripts/fetch-reviews.mjs during each build.
+const fallbackReviews: Review[] = [
     {
       name: "Mirza P",
       initial: "M",
@@ -74,5 +75,14 @@ export const reviewsConfig = {
       date: "2026-04-21",
       text: "Great taxi! Great service. Speaks English and Germany.",
     },
-  ] satisfies Review[],
-} as const;
+];
+
+const liveReviews = generated.reviews as Review[];
+
+export const reviewsConfig = {
+  // Live values from Google (via the daily Action), with manual fallbacks.
+  overallRating: generated.overallRating ?? 5.0,
+  totalReviews: generated.totalReviews ?? fallbackReviews.length,
+  googleMapsUrl: "https://maps.app.goo.gl/qk3H9aWKNDc8Ki4W9",
+  reviews: liveReviews.length > 0 ? liveReviews : fallbackReviews,
+};
